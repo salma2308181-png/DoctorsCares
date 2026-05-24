@@ -1,0 +1,33 @@
+        <section class="admin-page-content">
+            <div class="section-greeting">
+                <div>
+                    <h1 class="dash-greeting">Site Footer</h1>
+                    <p class="dash-subgreeting">Footer appears on all public pages. Specialties list is loaded from <a href="/admin/categories">Categories</a>.</p>
+                </div>
+            </div>
+
+            <form action="/admin/content/footer" method="post" class="dash-card">
+                <div class="card-header"><h3><i class="fas fa-shoe-prints"></i> Footer Content</h3></div>
+                <label class="form-field"><span>Brand tagline</span><textarea name="tagline" class="form-input" rows="2"><%= footerPage.tagline || '' %></textarea></label>
+                <div class="form-grid-2" style="margin-top:1.2rem;">
+                    <label class="form-field"><span>Phone</span><input type="text" name="phone" class="form-input" value="<%= footerPage.phone || '' %>"></label>
+                    <label class="form-field"><span>Email</span><input type="text" name="email" class="form-input" value="<%= footerPage.email || '' %>"></label>
+                    <label class="form-field" style="grid-column:1/-1;"><span>Address</span><input type="text" name="address" class="form-input" value="<%= footerPage.address || '' %>"></label>
+                    <label class="form-field" style="grid-column:1/-1;"><span>Copyright line</span><input type="text" name="copyrightText" class="form-input" value="<%= footerPage.copyrightText || '' %>"></label>
+                    <label class="form-field"><span>Privacy link</span><input type="text" name="privacyLink" class="form-input" value="<%= footerPage.privacyLink || '#' %>"></label>
+                    <label class="form-field"><span>Terms link</span><input type="text" name="termsLink" class="form-input" value="<%= footerPage.termsLink || '#' %>"></label>
+                </div>
+
+                <div class="card-header" style="margin-top:2rem;"><h3><i class="fas fa-share-alt"></i> Social links</h3></div>
+                <% const socials = footerPage.socialLinks || []; %>
+                <% for (let i = 0; i < 4; i++) { const s = socials[i] || {}; %>
+                <div class="form-grid-2" style="margin-bottom:1rem;padding:1rem;background:#f8fafc;border-radius:8px;">
+                    <label class="form-field"><span>Label</span><input type="text" name="socialLabel" class="form-input" value="<%= s.label || '' %>"></label>
+                    <label class="form-field"><span>URL</span><input type="text" name="socialUrl" class="form-input" value="<%= s.url || '' %>"></label>
+                    <label class="form-field" style="grid-column:1/-1;"><span>Icon class (e.g. fab fa-facebook-f)</span><input type="text" name="socialIcon" class="form-input" value="<%= s.icon || '' %>"></label>
+                </div>
+                <% } %>
+
+                <button type="submit" class="btn-primary-dash" style="margin-top:1.6rem;"><i class="fas fa-save"></i> Save Footer</button>
+            </form>
+        </section>

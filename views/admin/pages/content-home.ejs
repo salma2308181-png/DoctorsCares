@@ -1,0 +1,98 @@
+        <section class="admin-page-content">
+            <div class="section-greeting">
+                <div>
+                    <h1 class="dash-greeting">Home Page</h1>
+                    <p class="dash-subgreeting">Edit <a href="/" target="_blank" rel="noopener">/</a> hero, stats, and patient testimonials.</p>
+                </div>
+            </div>
+
+            <form action="/admin/content/home" method="post" class="dash-card">
+                <div class="card-header"><h3><i class="fas fa-home"></i> Hero Section</h3></div>
+                <div class="form-grid-2">
+                    <label class="form-field"><span>Badge text</span><input type="text" name="sectionLabel" class="form-input" value="<%= homePage.sectionLabel || '' %>"></label>
+                    <label class="form-field"><span>Hero image URL</span><input type="text" name="imageUrl" class="form-input" value="<%= homePage.imageUrl || '' %>"></label>
+                    <label class="form-field"><span>Title line 1</span><input type="text" name="heading" class="form-input" value="<%= homePage.heading || '' %>"></label>
+                    <label class="form-field"><span>Title highlight</span><input type="text" name="headingHighlight" class="form-input" value="<%= homePage.headingHighlight || '' %>"></label>
+                    <label class="form-field"><span>Primary CTA text</span><input type="text" name="ctaText" class="form-input" value="<%= homePage.ctaText || '' %>"></label>
+                    <label class="form-field"><span>Primary CTA link</span><input type="text" name="ctaLink" class="form-input" value="<%= homePage.ctaLink || '/doctors' %>"></label>
+                    <label class="form-field"><span>Secondary CTA text</span><input type="text" name="secondaryCtaText" class="form-input" value="<%= homePage.secondaryCtaText || '' %>"></label>
+                    <label class="form-field"><span>Secondary CTA link</span><input type="text" name="secondaryCtaLink" class="form-input" value="<%= homePage.secondaryCtaLink || '/about' %>"></label>
+                </div>
+                <label class="form-field" style="margin-top:1.2rem;"><span>Subtitle</span><textarea name="description" class="form-input" rows="3"><%= homePage.description || '' %></textarea></label>
+
+                <div class="card-header" style="margin-top:2rem;"><h3><i class="fas fa-id-card"></i> Floating cards (max 2)</h3></div>
+                <% const cards = homePage.heroCards || []; %>
+                <% for (let i = 0; i < 2; i++) { const c = cards[i] || {}; %>
+                <div class="form-grid-2" style="margin-bottom:1rem;padding:1rem;background:#f8fafc;border-radius:8px;">
+                    <label class="form-field"><span>Card <%= i+1 %> icon (e.g. fa-check-circle)</span><input type="text" name="heroCardIcon" class="form-input" value="<%= c.icon || '' %>"></label>
+                    <label class="form-field"><span>Card <%= i+1 %> title</span><input type="text" name="heroCardTitle" class="form-input" value="<%= c.title || '' %>"></label>
+                    <label class="form-field" style="grid-column:1/-1;"><span>Card <%= i+1 %> subtitle</span><input type="text" name="heroCardSubtitle" class="form-input" value="<%= c.subtitle || '' %>"></label>
+                </div>
+                <% } %>
+
+                <div class="card-header" style="margin-top:2rem;"><h3><i class="fas fa-chart-line"></i> Hero stats</h3></div>
+                <label class="form-field" style="margin-bottom:1rem;">
+                    <label style="display:flex;align-items:center;gap:0.8rem;cursor:pointer;">
+                        <input type="checkbox" name="useLiveStats" <%= homePage.useLiveStats !== false ? 'checked' : '' %>>
+                        <span>Use live counts from database (doctors, patients, ratings)</span>
+                    </label>
+                </label>
+                <% if (typeof liveStats !== 'undefined') { %>
+                <p style="font-size:1.3rem;color:#64748b;margin-bottom:1rem;">Live preview: <% liveStats.forEach(function(s, i) { %><%= i ? ' · ' : '' %><strong><%= s.value %></strong> <%= s.label %><% }); %></p>
+                <% } %>
+                <p style="font-size:1.25rem;color:#94a3b8;margin-bottom:1rem;">Custom stats below apply only when live stats is unchecked.</p>
+                <% const stats = homePage.stats || []; %>
+                <% for (let i = 0; i < 3; i++) { const s = stats[i] || {}; %>
+                <div class="form-grid-2" style="margin-bottom:0.8rem;">
+                    <label class="form-field"><span>Stat <%= i+1 %> value</span><input type="text" name="statValue" class="form-input" value="<%= s.value || '' %>"></label>
+                    <label class="form-field"><span>Stat <%= i+1 %> label</span><input type="text" name="statLabel" class="form-input" value="<%= s.label || '' %>"></label>
+                </div>
+                <% } %>
+
+                <div class="card-header" style="margin-top:2rem;"><h3><i class="fas fa-comments"></i> Testimonials section header</h3></div>
+                <div class="form-grid-2">
+                    <label class="form-field"><span>Section label</span><input type="text" name="testimonialsSectionLabel" class="form-input" value="<%= homePage.testimonialsSectionLabel || '' %>"></label>
+                    <label class="form-field"><span>Heading</span><input type="text" name="testimonialsHeading" class="form-input" value="<%= homePage.testimonialsHeading || '' %>"></label>
+                    <label class="form-field"><span>Heading highlight</span><input type="text" name="testimonialsHeadingHighlight" class="form-input" value="<%= homePage.testimonialsHeadingHighlight || '' %>"></label>
+                </div>
+                <button type="submit" class="btn-primary-dash" style="margin-top:1.6rem;"><i class="fas fa-save"></i> Save Home Page</button>
+            </form>
+
+            <div class="dash-card" style="margin-top:2rem;">
+                <div class="card-header"><h3><i class="fas fa-plus"></i> Add Testimonial</h3></div>
+                <form action="/admin/testimonials" method="post" class="form-grid-2">
+                    <label class="form-field" style="grid-column:1/-1;"><span>Quote</span><textarea name="quote" class="form-input" rows="2" required></textarea></label>
+                    <label class="form-field"><span>Author name</span><input type="text" name="authorName" class="form-input" required></label>
+                    <label class="form-field"><span>Author meta</span><input type="text" name="authorMeta" class="form-input" placeholder="Patient since 2024"></label>
+                    <label class="form-field" style="grid-column:1/-1;"><span>Author image URL</span><input type="text" name="authorImage" class="form-input"></label>
+                    <label class="form-field"><span>Sort order</span><input type="number" name="sortOrder" class="form-input" value="0"></label>
+                    <label class="form-field" style="display:flex;align-items:center;gap:0.6rem;padding-top:2rem;"><input type="checkbox" name="featured"> Featured card</label>
+                    <button type="submit" class="btn-primary-dash" style="grid-column:1/-1;"><i class="fas fa-plus"></i> Add</button>
+                </form>
+            </div>
+
+            <% if (testimonialItems && testimonialItems.length) { %>
+            <div class="dash-card" style="margin-top:2rem;">
+                <div class="card-header"><h3><i class="fas fa-list"></i> Testimonials</h3></div>
+                <% testimonialItems.forEach(function(t) { %>
+                <form action="/admin/testimonials/<%= t.id %>" method="post" style="border:1px solid #e2e8f0;border-radius:8px;padding:1.2rem;margin-bottom:1rem;">
+                    <div class="form-grid-2">
+                        <label class="form-field" style="grid-column:1/-1;"><span>Quote</span><textarea name="quote" class="form-input" rows="2" required><%= t.quote %></textarea></label>
+                        <label class="form-field"><span>Author</span><input type="text" name="authorName" class="form-input" value="<%= t.authorName %>" required></label>
+                        <label class="form-field"><span>Meta</span><input type="text" name="authorMeta" class="form-input" value="<%= t.authorMeta || '' %>"></label>
+                        <label class="form-field" style="grid-column:1/-1;"><span>Image URL</span><input type="text" name="authorImage" class="form-input" value="<%= t.authorImage || '' %>"></label>
+                        <label class="form-field"><span>Sort</span><input type="number" name="sortOrder" class="form-input" value="<%= t.sortOrder %>"></label>
+                        <label style="display:flex;align-items:center;gap:0.6rem;"><input type="checkbox" name="featured" <%= t.featured ? 'checked' : '' %>> Featured</label>
+                        <label style="display:flex;align-items:center;gap:0.6rem;"><input type="checkbox" name="isActive" <%= t.isActive !== false ? 'checked' : '' %>> Active</label>
+                    </div>
+                    <div style="display:flex;gap:1rem;margin-top:1rem;">
+                        <button type="submit" class="btn-primary-dash"><i class="fas fa-save"></i> Update</button>
+                    </div>
+                </form>
+                <form action="/admin/testimonials/<%= t.id %>/delete" method="post" style="margin-top:-0.5rem;margin-bottom:1.5rem;">
+                    <button type="submit" class="btn-reject" onclick="return confirm('Delete this testimonial?');"><i class="fas fa-trash"></i> Delete</button>
+                </form>
+                <% }); %>
+            </div>
+            <% } %>
+        </section>

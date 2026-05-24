@@ -1,0 +1,11 @@
+        <% if (!doctor.verified) { %>
+        <div class="dash-flash error" style="margin:2rem 2rem 0;"><i class="fas fa-hourglass-half"></i> Your account is pending admin verification. Some features may be limited until approved.</div>
+        <% } else if (doctor.suspended) { %>
+        <div class="dash-flash error" style="margin:2rem 2rem 0;"><i class="fas fa-ban"></i> Account suspended<%= doctor.suspendReason ? ': ' + doctor.suspendReason : '' %>. Contact support.</div>
+        <% } %>
+        <% if (flash && flash.success) { %>
+        <div class="dash-flash success" style="margin:2rem 2rem 0;"><i class="fas fa-check-circle"></i> <%= flash.success %></div>
+        <% } %>
+        <% if (flash && flash.error) { %>
+        <div class="dash-flash error" style="margin:2rem 2rem 0;"><i class="fas fa-exclamation-circle"></i> <%= flash.error %></div>
+        <% } %>

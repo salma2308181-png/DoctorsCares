@@ -1,0 +1,28 @@
+<% const pageTitle = 'Page Not Found | DoctorsCares'; %>
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+<%- include('partials/navbar') %>
+
+    <section class="error-page">
+        <div class="error-page-inner">
+            <div class="error-code">404</div>
+            <div class="section-label">Page Not Found</div>
+            <h1>This page doesn't <span>exist</span></h1>
+            <p>The link may be broken, or the page may have been moved. Let's get you back on track.</p>
+            <div class="error-actions">
+                <a href="/" class="button btn-primary"><i class="fas fa-home"></i> Back to Home</a>
+                <a href="/doctors" class="button btn-ghost"><i class="fas fa-user-md"></i> Find Doctors</a>
+                <% if (user) { %>
+                <a href="<%= dashHref %>" class="button button-outline"><i class="fas fa-th-large"></i> My Dashboard</a>
+                <% } %>
+            </div>
+            <p class="error-hint">Need help? <a href="/contact">Contact support</a></p>
+        </div>
+    </section>
+
+<%- include('partials/footer') %>
+<%- include('partials/scripts') %>
+</body>
+</html>

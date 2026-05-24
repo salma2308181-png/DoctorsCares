@@ -1,0 +1,44 @@
+        <section class="dash-section active" id="section-patients">
+            <div class="section-header-bar">
+                <h2 class="section-title"><i class="fas fa-users"></i> Patient Management</h2>
+                <div class="search-dash-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search patients..." id="patient-search" class="search-dash-input">
+                </div>
+            </div>
+            <div class="patients-grid" id="patients-grid">
+                <% patients.forEach(function(p) { %>
+                <div class="patient-card" data-search="<%= (p.name + ' ' + p.condition).toLowerCase() %>">
+                    <div class="patient-card-top">
+                        <img src="<%= p.avatar %>" alt="<%= p.name %>">
+                        <div>
+                            <div class="patient-card-name"><%= p.name %></div>
+                            <div class="patient-card-info"><% if (p.age) { %><%= p.age %> yrs · <% } %><%= p.gender %> · <%= p.blood %></div>
+                        </div>
+                    </div>
+                    <div class="patient-card-stats">
+                        <div class="pstat"><div class="pstat-val"><%= p.visits %></div><div class="pstat-label">Total Visits</div></div>
+                        <div class="pstat"><div class="pstat-val" style="font-size:1.3rem;"><%= p.lastVisit %></div><div class="pstat-label">Last Visit</div></div>
+                    </div>
+                    <div style="margin-top:1rem;background:#f0f7ff;border-radius:0.8rem;padding:0.8rem 1.2rem;">
+                        <span style="font-size:1.25rem;color:#2563eb;font-weight:600;"><%= p.condition %></span>
+                    </div>
+                    <div class="patient-card-footer">
+                        <button type="button" class="btn-notes btn-patient-note" data-patient-id="<%= p.id %>" data-patient-name="<%= p.name %>"><i class="fas fa-notes-medical"></i> Add Note</button>
+                        <button type="button" class="btn-history btn-patient-history" data-patient-id="<%= p.id %>" data-patient-name="<%= p.name %>"><i class="fas fa-plus"></i> Add History</button>
+                        <button type="button" class="btn-history btn-patient-detail" data-patient-id="<%= p.id %>"><i class="fas fa-history"></i> History</button>
+                    </div>
+                </div>
+                <% }); %>
+                <% if (!patients.length) { %>
+                <p class="empty-panel" style="grid-column:1/-1;">No patients yet. Appointments will appear here.</p>
+                <% } %>
+            </div>
+            <div class="patient-detail-overlay" id="patient-detail-overlay">
+                <div class="patient-detail-panel">
+                    <button type="button" class="panel-close" id="panel-close"><i class="fas fa-times"></i></button>
+                    <div id="patient-detail-content"></div>
+                </div>
+            </div>
+            <script type="application/json" id="patients-json"><%- JSON.stringify(patients) %></script>
+        </section>

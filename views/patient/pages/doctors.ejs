@@ -1,0 +1,26 @@
+        <section class="dash-section active" id="section-doctors">
+            <h2 class="section-title"><i class="fas fa-user-md"></i> My Doctors</h2>
+            <% if (myDoctors.length) { %>
+            <div class="patients-grid">
+                <% myDoctors.forEach(function(d) { %>
+                <div class="patient-card">
+                    <div class="patient-card-top">
+                        <img src="<%= d.avatar %>" alt="<%= d.name %>">
+                        <div>
+                            <div class="patient-card-name"><%= d.name %></div>
+                            <div class="patient-card-info"><%= d.specialty %> · <%= d.title %></div>
+                        </div>
+                    </div>
+                    <div class="patient-card-stats">
+                        <div class="pstat"><div class="pstat-val"><i class="fas fa-star" style="color:#f59e0b"></i> <%= d.rating %></div><div class="pstat-label">Rating</div></div>
+                        <div class="pstat"><div class="pstat-val"><%= d.visits %></div><div class="pstat-label">Visits</div></div>
+                    </div>
+                    <p style="font-size:1.3rem;color:#64748b;margin-top:1rem;"><i class="fas fa-map-marker-alt"></i> <%= d.location %> · Last visit: <%= d.lastVisit %></p>
+                    <a href="/patient/appointments?doctorId=<%= d.id %>&amp;focus=book" class="btn-outline-dash" style="margin-top:1.2rem;display:inline-flex;">Book Again</a>
+                </div>
+                <% }); %>
+            </div>
+            <% } else { %>
+            <div class="dash-card"><p class="empty-panel" style="padding:2rem;">Doctors you visit will appear here. <a href="/patient/appointments?focus=book">Book your first appointment</a>.</p></div>
+            <% } %>
+        </section>

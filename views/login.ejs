@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account – DoctorsCares</title>
+    <%- include('partials/favicon') %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="auth-bg">
+
+    <div class="auth-container">
+        <div class="auth-logo">
+            <a href="/" class="logo" style="color:#ffffff;"><span>D</span>octors<span>C</span>ares<span class="dot" style="color:#60a5fa">.</span></a>
+        </div>
+
+        <div class="auth-card">
+
+            <!-- LOGIN -->
+            <div class="form-side login-form" style="<%= mode === 'signup' ? 'display:none' : '' %>">
+                <h2><i class="fas fa-right-to-bracket"></i> Welcome Back</h2>
+                <p>Login to manage your appointments and health records.</p>
+
+                <form action="/auth/login" method="post" id="login-form">
+                    <% if (typeof next !== 'undefined' && next) { %>
+                    <input type="hidden" name="next" value="<%= next %>">
+                    <% } %>
+                    <% if (error) { %>
+                        <div class="auth-error" style="margin-bottom:1.5rem; color:#ef4444; font-size:1.4rem; font-weight:600;"><%= error %></div>
+                    <% } %>
+                    <div class="input-box">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" placeholder="Email address" required value="<%= values.email || '' %>">
+                    </div>
+                    <div class="input-box">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="button btn-primary" style="width:100%; justify-content:center; border-radius:var(--radius-sm); font-size:1.6rem; padding:1.5rem; margin-top:1rem;">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+
+                <p class="toggle-text" style="margin-top:2rem;">New here? <a href="#" id="to-signup">Create an account</a></p>
+                <a href="/" class="back-home"><i class="fas fa-arrow-left"></i> Return to Home</a>
+            </div>
+
+            <!-- SIGN UP (patients only) -->
+            <div class="form-side signup-form" style="<%= mode === 'signup' ? '' : 'display:none' %>">
+                <h2><i class="fas fa-user-plus"></i> Create Patient Account</h2>
+                <p>Register to book appointments. Doctor accounts are approved by our admin team after verification.</p>
+
+                <form action="/auth/signup" method="post" id="signup-form">
+                    <% if (signupError) { %>
+                        <div class="auth-error" style="margin-bottom:1.5rem; color:#ef4444; font-size:1.4rem; font-weight:600;"><%= signupError %></div>
+                    <% } %>
+
+                    <div class="input-box">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="fullName" placeholder="Full Name" required value="<%= values.fullName || '' %>">
+                    </div>
+                    <div class="input-box">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" placeholder="Email Address" required value="<%= values.email || '' %>">
+                    </div>
+                    <div class="input-box">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" name="phone" placeholder="Mobile Number" value="<%= values.phone || '' %>">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-box half">
+                            <i class="fas fa-venus-mars"></i>
+                            <select name="gender">
+                                <option value="">Gender</option>
+                                <option value="Male" <%= values.gender === 'Male' ? 'selected' : '' %>>Male</option>
+                                <option value="Female" <%= values.gender === 'Female' ? 'selected' : '' %>>Female</option>
+                            </select>
+                        </div>
+                        <div class="input-box half">
+                            <i class="fas fa-birthday-cake"></i>
+                            <input type="date" name="dateOfBirth" value="<%= values.dateOfBirth || '' %>">
+                        </div>
+                    </div>
+
+                    <div class="input-box">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" placeholder="Password (min 6 characters)" required minlength="6">
+                    </div>
+
+                    <button type="submit" class="button btn-primary" style="width:100%; margin-top:1rem;">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
+
+                <p class="toggle-text" style="margin-top:2rem;">Already have an account? <a href="#" id="to-login">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('to-signup').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector('.login-form').style.display = 'none';
+            document.querySelector('.signup-form').style.display = '';
+        });
+        document.getElementById('to-login').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector('.signup-form').style.display = 'none';
+            document.querySelector('.login-form').style.display = '';
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

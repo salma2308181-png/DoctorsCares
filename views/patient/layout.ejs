@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %> – DoctorsCares</title>
+    <%- include('../partials/favicon') %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/doctor-dashboard.css">
+    <link rel="stylesheet" href="/css/medical-features.css">
+    <style>
+        .patient-sidebar .sdr-status-dot { background: #10b981; }
+        .form-grid-book { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        @media (max-width: 700px) { .form-grid-book { grid-template-columns: 1fr; } }
+        .section-title { font-size: 2.2rem; font-weight: 700; margin-bottom: 2rem; display: flex; align-items: center; gap: 0.8rem; }
+    </style>
+</head>
+<body class="dash-body">
+
+<%- include('_sidebar') %>
+
+<div class="dash-main" id="dash-main">
+    <%- include('_topbar') %>
+    <%- include('_flash') %>
+    <%- include(contentView) %>
+</div>
+
+<script src="/js/patient-dashboard.js"></script>
+</body>
+</html>

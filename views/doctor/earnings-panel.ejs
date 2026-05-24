@@ -1,0 +1,67 @@
+<% const e = earnings[period]; const maxVal = Math.max(...e.bars.map(b => b.val), 1); %>
+<div class="earnings-panel" id="earn-panel-<%= period %>" style="<%= period === 'daily' ? '' : 'display:none;' %>">
+    <div class="earnings-stats">
+        <div class="earn-stat-card">
+            <div class="earn-icon" style="background:#dbeafe;color:#2563eb"><i class="fas fa-coins"></i></div>
+            <div>
+                <div class="earn-amount"><%= e.total %></div>
+                <div class="earn-label">Total Earned</div>
+            </div>
+        </div>
+        <div class="earn-stat-card">
+            <div class="earn-icon" style="background:#dcfce7;color:#16a34a"><i class="fas fa-check-circle"></i></div>
+            <div>
+                <div class="earn-amount"><%= e.sessions %></div>
+                <div class="earn-label">Completed Sessions</div>
+            </div>
+        </div>
+        <div class="earn-stat-card">
+            <div class="earn-icon" style="background:#fef3c7;color:#d97706"><i class="fas fa-times-circle"></i></div>
+            <div>
+                <div class="earn-amount"><%= e.cancelled %></div>
+                <div class="earn-label">Cancelled</div>
+            </div>
+        </div>
+        <div class="earn-stat-card">
+            <div class="earn-icon" style="background:#f3e8ff;color:#7c3aed"><i class="fas fa-star"></i></div>
+            <div>
+                <div class="earn-amount"><%= e.avg %></div>
+                <div class="earn-label">Avg. Per Session</div>
+            </div>
+        </div>
+    </div>
+    <div class="chart-card">
+        <div class="chart-header">
+            <h3>Revenue Overview</h3>
+            <span class="chart-subtitle"><%= e.subtitle %></span>
+        </div>
+        <div class="bar-chart">
+            <% e.bars.forEach(function(b) { %>
+            <% const pct = b.cancelled ? 8 : Math.max((b.val / maxVal) * 100, 5); %>
+            <div class="bar-col">
+                <div class="bar-fill <%= b.cancelled ? 'cancelled' : '' %>" style="height:<%= pct %>%" data-val="<%= b.cancelled ? 'Cancelled' : b.val + ' EGP' %>"></div>
+                <div class="bar-label"><%= b.label %></div>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+    <div class="transactions-card">
+        <h3>Recent Transactions</h3>
+        <div class="transactions-list">
+            <% if (e.transactions.length) { %>
+                <% e.transactions.forEach(function(t) { %>
+                <div class="transaction-item">
+                    <div class="trans-icon" style="background:<%= t.positive ? '#dcfce7' : '#fee2e2' %>;color:<%= t.positive ? '#16a34a' : '#dc2626' %>;"><i class="fas <%= t.icon %>"></i></div>
+                    <div class="trans-info">
+                        <div class="trans-name"><%= t.name %></div>
+                        <div class="trans-date"><%= t.type %> · <%= t.date %></div>
+                    </div>
+                    <div class="trans-amount <%= t.positive ? 'positive' : 'negative' %>"><%= t.amount %></div>
+                </div>
+                <% }); %>
+            <% } else { %>
+                <p style="padding:2rem;text-align:center;color:#94a3b8;">No transactions in this period.</p>
+            <% } %>
+        </div>
+    </div>
+</div>

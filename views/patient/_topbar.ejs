@@ -1,0 +1,14 @@
+        <header class="dash-topbar">
+            <div class="topbar-left">
+                <button type="button" class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <%- include('../partials/topbar-title', { role: 'patient' }) %>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-date"><i class="fas fa-calendar-alt"></i> <span id="today-date"></span></div>
+                <a href="/patient/notifications" class="topbar-notif">
+                    <i class="fas fa-bell"></i>
+                    <% if (unreadNotifCount > 0) { %><span class="notif-dot"></span><% } %>
+                </a>
+                <div class="topbar-avatar"><img src="<%= patient.avatar %>" alt=""></div>
+            </div>
+        </header>

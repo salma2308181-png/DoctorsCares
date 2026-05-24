@@ -1,0 +1,49 @@
+<%#
+  Usage: include with `role` = patient | doctor | admin
+  Uses activePage + pageTitle from parent layout
+%>
+<%
+const iconMaps = {
+    patient: {
+        dashboard: 'fa-th-large',
+        appointments: 'fa-calendar-check',
+        'medical-history': 'fa-route',
+        family: 'fa-people-roof',
+        records: 'fa-file-medical',
+        doctors: 'fa-user-md',
+        notifications: 'fa-bell',
+        profile: 'fa-user-circle',
+    },
+    doctor: {
+        dashboard: 'fa-th-large',
+        appointments: 'fa-calendar-check',
+        schedule: 'fa-clock',
+        patients: 'fa-users',
+        earnings: 'fa-chart-line',
+        notifications: 'fa-bell',
+        profile: 'fa-user-circle',
+    },
+    admin: {
+        dashboard: 'fa-th-large',
+        doctors: 'fa-user-md',
+        patients: 'fa-users',
+        appointments: 'fa-calendar-check',
+        payments: 'fa-credit-card',
+        categories: 'fa-tags',
+        reports: 'fa-chart-bar',
+        notifications: 'fa-bell',
+        settings: 'fa-cog',
+        'content-home': 'fa-home',
+        'content-about': 'fa-info-circle',
+        'content-services': 'fa-concierge-bell',
+        'content-blogs': 'fa-newspaper',
+        'content-contact': 'fa-envelope',
+        'content-footer': 'fa-layer-group',
+    },
+};
+const pageIcon = (iconMaps[role] && iconMaps[role][activePage]) || 'fa-circle';
+%>
+<div class="topbar-title" id="page-title">
+    <i class="fas <%= pageIcon %> topbar-page-icon" aria-hidden="true"></i>
+    <span><%= pageTitle %></span>
+</div>

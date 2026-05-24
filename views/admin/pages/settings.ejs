@@ -1,0 +1,37 @@
+﻿        <section class="admin-page-content">
+            <div class="section-greeting">
+                <div>
+                    <h1 class="dash-greeting">System Settings</h1>
+                    <p class="dash-subgreeting">Configure platform-wide commission and refund rules.</p>
+                </div>
+            </div>
+
+            <div class="overview-grid">
+                <div class="dash-card">
+                    <div class="card-header"><h3><i class="fas fa-percent"></i> Commission Settings</h3></div>
+                    <% const cfg = settings || {}; %>
+                    <form action="/admin/settings" method="post" class="settings-form">
+                        <div class="form-field">
+                            <label for="commissionPercent">Platform Commission (%)</label>
+                            <input type="number" name="commissionPercent" id="commissionPercent" class="form-input" value="<%= cfg.commissionPercent != null ? cfg.commissionPercent : 15 %>" min="0" max="100">
+                        </div>
+                        <div class="form-field">
+                            <label for="minBookingFee">Minimum Booking Fee (EGP)</label>
+                            <input type="number" name="minBookingFee" id="minBookingFee" class="form-input" value="<%= cfg.minBookingFee != null ? cfg.minBookingFee : 100 %>">
+                        </div>
+                        <div class="form-field">
+                            <label for="refundWindowHours">Refund Window (hours)</label>
+                            <input type="number" name="refundWindowHours" id="refundWindowHours" class="form-input" value="<%= cfg.refundWindowHours != null ? cfg.refundWindowHours : 24 %>">
+                        </div>
+                        <button type="submit" class="btn-primary-dash"><i class="fas fa-save"></i> Save Changes</button>
+                    </form>
+                </div>
+                <div class="dash-card">
+                    <div class="card-header"><h3><i class="fas fa-user-shield"></i> Admin Account</h3></div>
+                    <div class="settings-form">
+                        <div class="form-field"><label>Admin Name</label><input type="text" class="form-input" value="<%= adminName %>" readonly></div>
+                        <div class="form-field"><label>Email</label><input type="email" class="form-input" value="<%= user && user.email ? user.email : '' %>" readonly></div>
+                    </div>
+                </div>
+            </div>
+        </section>

@@ -1,0 +1,19 @@
+        <section class="dash-section active" id="section-notifications">
+            <h2 class="section-title"><i class="fas fa-bell"></i> Notifications</h2>
+            <div class="notifications-list">
+                <% if (notifications.length) { %>
+                    <% notifications.forEach(function(n) { %>
+                    <div class="notif-full-item <%= n.read ? '' : 'unread' %>">
+                        <div class="notif-full-icon notif-<%= n.color %>"><i class="fas <%= n.icon %>"></i></div>
+                        <div class="notif-full-content">
+                            <div class="notif-full-title"><%= n.title %><% if (!n.read) { %> <span style="background:#ef4444;color:#fff;font-size:1rem;padding:0.2rem 0.7rem;border-radius:999px;margin-left:0.8rem;">New</span><% } %></div>
+                            <div class="notif-full-body"><%= n.body %></div>
+                            <div class="notif-full-time"><i class="fas fa-clock"></i> <%= n.time %></div>
+                        </div>
+                    </div>
+                    <% }); %>
+                <% } else { %>
+                    <p class="empty-panel">You're all caught up — no notifications.</p>
+                <% } %>
+            </div>
+        </section>

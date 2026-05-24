@@ -1,0 +1,159 @@
+        <section class="dash-section active" id="section-overview">
+            <div class="section-greeting">
+                <div>
+                    <h1 class="dash-greeting" id="greeting-text">Welcome, <%= doctor.name %></h1>
+                    <p class="dash-subgreeting">Here's your day at a glance — stay on top of every patient.</p>
+                </div>
+                <a href="/doctor/appointments" class="btn-primary-dash"><i class="fas fa-calendar-plus"></i> View All Appointments</a>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card stat-blue">
+                    <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-number"><%= stats.todayCount %></div>
+                        <div class="stat-label">Today's Appointments</div>
+                    </div>
+                </div>
+                <div class="stat-card stat-green">
+                    <div class="stat-icon"><i class="fas fa-user-check"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-number"><%= stats.pendingCount %></div>
+                        <div class="stat-label">Pending Approval</div>
+                    </div>
+                    <% if (stats.pendingCount > 0) { %><div class="stat-trend warn"><i class="fas fa-clock"></i> Awaiting</div><% } %>
+                </div>
+                <div class="stat-card stat-amber">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-number"><%= stats.totalPatients %></div>
+                        <div class="stat-label">Total Patients</div>
+                    </div>
+                    <% if (stats.newPatientsWeek > 0) { %><div class="stat-trend up"><i class="fas fa-arrow-up"></i> +<%= stats.newPatientsWeek %> this week</div><% } %>
+                </div>
+                <div class="stat-card stat-purple">
+                    <div class="stat-icon"><i class="fas fa-coins"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-number"><%= stats.todayEarnings.toLocaleString('en-EG') %> <small>EGP</small></div>
+                        <div class="stat-label">Today's Earnings</div>
+                    </div>
+                </div>
+            </div>
+            <div class="overview-grid" style="margin-bottom:1.5rem;">
+                <div class="overview-card priority-section">
+                    <div class="ov-card-header">
+                        <h3><i class="fas fa-ranking-star"></i> Patient Priority</h3>
+                        <a href="/doctor/patients" class="ov-view-all">All Patients</a>
+                    </div>
+                    <% if (patientPriority.highPriority.length) { %>
+                    <div class="priority-group-title high"><i class="fas fa-circle-exclamation"></i> High Priority</div>
+                    <% patientPriority.highPriority.slice(0, 4).forEach(function(p) { %>
+                    <div class="priority-patient-row">
+                        <img src="<%= p.avatar %>" alt="">
+                        <div style="flex:1;">
+                            <div style="font-weight:600;"><%= p.name %></div>
+                            <div class="priority-reasons">
+                                <% p.reasons.forEach(function(r) { %>
+                                <span class="priority-reason-tag high"><%= r %></span>
+                                <% }); %>
+                            </div>
+                        </div>
+                        <a href="/doctor/patients" class="btn-family-sm">Contact</a>
+                    </div>
+                    <% }); %>
+                    <% } %>
+                    <% if (patientPriority.mediumPriority.length) { %>
+                    <div class="priority-group-title medium" style="margin-top:1rem;"><i class="fas fa-clock"></i> Medium Priority</div>
+                    <% patientPriority.mediumPriority.slice(0, 3).forEach(function(p) { %>
+                    <div class="priority-patient-row">
+                        <img src="<%= p.avatar %>" alt="">
+                        <div style="flex:1;">
+                            <div style="font-weight:600;"><%= p.name %></div>
+                            <div class="priority-reasons">
+                                <% p.reasons.forEach(function(r) { %>
+                                <span class="priority-reason-tag"><%= r %></span>
+                                <% }); %>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                    <% } %>
+                    <% if (!patientPriority.highPriority.length && !patientPriority.mediumPriority.length) { %>
+                    <div class="priority-group-title low"><i class="fas fa-check"></i> Routine visits</div>
+                    <% patientPriority.routine.slice(0, 3).forEach(function(p) { %>
+                    <div class="priority-patient-row">
+                        <img src="<%= p.avatar %>" alt="">
+                        <div><div style="font-weight:600;"><%= p.name %></div><span class="priority-reason-tag">Routine check-up</span></div>
+                    </div>
+                    <% }); %>
+                    <% } %>
+                </div>
+                <div class="overview-card">
+                    <div class="ov-card-header">
+                        <h3><i class="fas fa-wand-magic-sparkles"></i> Smart Schedule Optimizer</h3>
+                        <a href="/doctor/schedule" class="ov-view-all">Schedule</a>
+                    </div>
+                    <div class="schedule-opt-card">
+                        <div class="schedule-opt-stat">
+                            <span>Today: <strong><%= scheduleOptimizer.totalToday %></strong> appointments</span>
+                            <span>Utilization: <strong><%= scheduleOptimizer.utilization %>%</strong></span>
+                        </div>
+                        <div class="utilization-bar"><div class="utilization-fill" style="width:<%= scheduleOptimizer.utilization %>%"></div></div>
+                        <% if (scheduleOptimizer.emptySlots.length) { %>
+                        <p style="font-size:0.82rem;color:#64748b;margin:0.75rem 0 0.5rem;"><i class="fas fa-chair"></i> Empty slots: <%= scheduleOptimizer.emptySlots.join(', ') %></p>
+                        <% } %>
+                        <% if (scheduleOptimizer.suggestions.length) { %>
+                            <% scheduleOptimizer.suggestions.forEach(function(s) { %>
+                            <div class="schedule-suggestion type-<%= s.type %>">
+                                <i class="fas fa-lightbulb"></i>
+                                <span><%= s.message %></span>
+                            </div>
+                            <% }); %>
+                        <% } else { %>
+                        <p style="font-size:0.88rem;color:#10b981;margin-top:0.75rem;"><i class="fas fa-check-circle"></i> Schedule looks efficient today.</p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <div class="ov-card-header">
+                        <h3><i class="fas fa-clock"></i> Today's Schedule</h3>
+                        <a href="/doctor/appointments" class="ov-view-all">View All</a>
+                    </div>
+                    <div class="today-appointments">
+                        <% if (todayAppointments.length) { %>
+                            <% todayAppointments.forEach(function(a) { %>
+                            <div class="today-appt-item">
+                                <div class="appt-time-badge"><%= a.time %></div>
+                                <div class="appt-item-avatar"><img src="<%= a.avatar %>" alt=""></div>
+                                <div>
+                                    <div class="appt-item-name"><%= a.patient %></div>
+                                    <div class="appt-item-reason"><%= a.reason.length > 40 ? a.reason.substring(0,40) + '...' : a.reason %></div>
+                                </div>
+                                <span class="appt-item-status status-<%= a.status %>"><%= a.status.charAt(0).toUpperCase() + a.status.slice(1) %></span>
+                            </div>
+                            <% }); %>
+                        <% } else { %>
+                            <p style="padding:2rem;text-align:center;color:#94a3b8;">No appointments today.</p>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="ov-card-header">
+                        <h3><i class="fas fa-bell"></i> Recent Alerts</h3>
+                        <a href="/doctor/notifications" class="ov-view-all">View All</a>
+                    </div>
+                    <div class="mini-notifs">
+                        <% recentAlerts.forEach(function(n) { %>
+                        <div class="mini-notif-item">
+                            <div class="mini-notif-icon notif-<%= n.color %>"><i class="fas <%= n.icon %>"></i></div>
+                            <div>
+                                <div class="mini-notif-text"><strong><%= n.title %></strong> — <%= n.body.length > 55 ? n.body.substring(0,55) + '...' : n.body %></div>
+                                <div class="mini-notif-time"><%= n.time %></div>
+                            </div>
+                        </div>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+        </section>

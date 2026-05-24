@@ -1,0 +1,27 @@
+<div class="appt-card patient-appt-card">
+    <div class="appt-card-avatar"><img src="<%= a.avatar %>" alt="<%= a.doctorName %>"></div>
+    <div class="appt-card-info">
+        <div class="appt-card-name"><%= a.doctorName %></div>
+        <div class="appt-card-meta">
+            <span><i class="fas fa-stethoscope"></i> <%= a.specialty %></span>
+            <span><i class="fas fa-calendar-alt"></i> <%= a.date %></span>
+            <span><i class="fas fa-clock"></i> <%= a.time %></span>
+            <span><i class="fas fa-coins"></i> <%= a.fee %> EGP</span>
+        </div>
+        <div class="appt-card-reason"><i class="fas fa-comment-medical"></i> <%= a.reason %></div>
+        <% if (a.bookedFor) { %>
+        <div class="booked-for-tag"><i class="fas fa-user"></i> For: <%= a.bookedFor %></div>
+        <% } %>
+        <% if (a.status === 'cancelled' && a.cancelReason) { %>
+        <div style="font-size:1.25rem;color:#94a3b8;margin-top:0.5rem;">Reason: <%= a.cancelReason %></div>
+        <% } %>
+    </div>
+    <div class="appt-card-actions">
+        <span class="appt-item-status status-<%= a.status %>"><%= a.status.charAt(0).toUpperCase() + a.status.slice(1) %></span>
+        <% if (a.status === 'pending' || a.status === 'confirmed') { %>
+        <form action="/patient/appointments/<%= a.id %>/cancel" method="post" onsubmit="return confirm('Cancel this appointment?');">
+            <button type="submit" class="btn-reject"><i class="fas fa-times"></i> Cancel</button>
+        </form>
+        <% } %>
+    </div>
+</div>

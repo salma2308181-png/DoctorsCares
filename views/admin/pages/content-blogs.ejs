@@ -1,0 +1,135 @@
+        <section class="admin-page-content">
+            <div class="section-greeting">
+                <div>
+                    <h1 class="dash-greeting">Blog Posts</h1>
+                    <p class="dash-subgreeting">Manage articles on the <a href="/blogs" target="_blank" rel="noopener">/blogs</a> page.</p>
+                </div>
+            </div>
+
+            <form action="/admin/content/blogs-header" method="post" class="dash-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-heading"></i> Page Header</h3>
+                </div>
+                <div class="form-grid-2">
+                    <label class="form-field">
+                        <span>Section label</span>
+                        <input type="text" name="sectionLabel" class="form-input" value="<%= blogsPage.sectionLabel || '' %>">
+                    </label>
+                    <label class="form-field">
+                        <span>Heading</span>
+                        <input type="text" name="heading" class="form-input" value="<%= blogsPage.heading || '' %>">
+                    </label>
+                    <label class="form-field">
+                        <span>Heading highlight</span>
+                        <input type="text" name="headingHighlight" class="form-input" value="<%= blogsPage.headingHighlight || '' %>">
+                    </label>
+                </div>
+                <label class="form-field" style="margin-top:1.2rem;">
+                    <span>Subtitle</span>
+                    <textarea name="description" class="form-input" rows="2"><%= blogsPage.description || '' %></textarea>
+                </label>
+                <button type="submit" class="btn-primary-dash" style="margin-top:1.6rem;">
+                    <i class="fas fa-save"></i> Save Header
+                </button>
+            </form>
+
+            <div class="dash-card" style="margin-top:2rem;">
+                <div class="card-header">
+                    <h3><i class="fas fa-plus"></i> New Blog Post</h3>
+                </div>
+                <form action="/admin/blogs" method="post" class="form-grid-2">
+                    <label class="form-field">
+                        <span>Title</span>
+                        <input type="text" name="title" class="form-input" required>
+                    </label>
+                    <label class="form-field">
+                        <span>Tag / category</span>
+                        <input type="text" name="tag" class="form-input" value="Health">
+                    </label>
+                    <label class="form-field" style="grid-column:1/-1;">
+                        <span>Excerpt</span>
+                        <textarea name="excerpt" class="form-input" rows="2"></textarea>
+                    </label>
+                    <label class="form-field">
+                        <span>Image URL</span>
+                        <input type="url" name="imageUrl" class="form-input" placeholder="https://...">
+                    </label>
+                    <label class="form-field">
+                        <span>Published date</span>
+                        <input type="date" name="publishedAt" class="form-input" value="<%= new Date().toISOString().slice(0,10) %>">
+                    </label>
+                    <label class="form-field">
+                        <span>Article link</span>
+                        <input type="text" name="link" class="form-input" value="#">
+                    </label>
+                    <label class="form-field">
+                        <span>Sort order</span>
+                        <input type="number" name="sortOrder" class="form-input" value="0">
+                    </label>
+                    <label class="form-field" style="display:flex;align-items:center;gap:0.6rem;">
+                        <input type="checkbox" name="featured" value="on">
+                        <span>Featured (large card)</span>
+                    </label>
+                    <div style="grid-column:1/-1;">
+                        <button type="submit" class="btn-card-add"><i class="fas fa-plus"></i> Add Post</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="dash-card" style="margin-top:2rem;">
+                <div class="card-header">
+                    <h3><i class="fas fa-newspaper"></i> Existing Posts</h3>
+                </div>
+                <% if (blogPosts && blogPosts.length) { %>
+                    <% blogPosts.forEach(function(post) { %>
+                    <form action="/admin/blogs/<%= post.id %>/delete" method="post" style="display:none" id="del-blog-<%= post.id %>"></form>
+                    <form action="/admin/blogs/<%= post.id %>" method="post" class="content-edit-block">
+                        <div class="form-grid-2">
+                            <label class="form-field">
+                                <span>Title</span>
+                                <input type="text" name="title" class="form-input" value="<%= post.title %>" required>
+                            </label>
+                            <label class="form-field">
+                                <span>Tag</span>
+                                <input type="text" name="tag" class="form-input" value="<%= post.tag %>">
+                            </label>
+                            <label class="form-field" style="grid-column:1/-1;">
+                                <span>Excerpt</span>
+                                <textarea name="excerpt" class="form-input" rows="2"><%= post.excerpt %></textarea>
+                            </label>
+                            <label class="form-field">
+                                <span>Image URL</span>
+                                <input type="url" name="imageUrl" class="form-input" value="<%= post.imageUrl %>">
+                            </label>
+                            <label class="form-field">
+                                <span>Published date</span>
+                                <input type="date" name="publishedAt" class="form-input" value="<%= post.dateInput %>">
+                            </label>
+                            <label class="form-field">
+                                <span>Link</span>
+                                <input type="text" name="link" class="form-input" value="<%= post.link %>">
+                            </label>
+                            <label class="form-field">
+                                <span>Sort order</span>
+                                <input type="number" name="sortOrder" class="form-input" value="<%= post.sortOrder %>">
+                            </label>
+                            <label class="form-field" style="display:flex;align-items:center;gap:0.6rem;">
+                                <input type="checkbox" name="featured" value="on" <%= post.featured ? 'checked' : '' %>>
+                                <span>Featured</span>
+                            </label>
+                            <label class="form-field" style="display:flex;align-items:center;gap:0.6rem;">
+                                <input type="checkbox" name="isPublished" value="on" <%= post.isPublished !== false ? 'checked' : '' %>>
+                                <span>Published on site</span>
+                            </label>
+                        </div>
+                        <div style="display:flex;gap:0.8rem;margin-top:1rem;flex-wrap:wrap;">
+                            <button type="submit" class="btn-primary-dash btn-sm"><i class="fas fa-save"></i> Update</button>
+                            <button type="submit" class="btn-delete-sm" form="del-blog-<%= post.id %>" onclick="return confirm('Delete this post?');"><i class="fas fa-trash"></i> Delete</button>
+                        </div>
+                    </form>
+                    <% }); %>
+                <% } else { %>
+                    <p style="padding:2rem;text-align:center;color:var(--text-muted);">No blog posts yet. Add one above or run <code>npm run seed</code>.</p>
+                <% } %>
+            </div>
+        </section>

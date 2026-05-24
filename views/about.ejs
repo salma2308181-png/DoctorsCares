@@ -1,0 +1,51 @@
+﻿<% const pageTitle = 'About | DoctorsCares'; %>
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+<%- include('partials/navbar') %>
+
+    <section id="about" class="about">
+        <div class="row">
+            <div class="about-image">
+                <% if (about.imageBadge) { %>
+                <div class="img-badge"><i class="fas fa-award"></i> <%= about.imageBadge %></div>
+                <% } %>
+                <img src="<%= about.imageUrl %>" alt="Clinic">
+                <% if (about.statValue) { %>
+                <div class="img-stat-card">
+                    <strong><%= about.statValue %></strong>
+                    <span><%= about.statLabel %></span>
+                </div>
+                <% } %>
+            </div>
+            <div class="about-content">
+                <% if (about.sectionLabel) { %>
+                <div class="section-label"><%= about.sectionLabel %></div>
+                <% } %>
+                <h3><%= about.heading %> <span><%= about.headingHighlight %></span>?</h3>
+                <p><%= about.description %></p>
+                <% if (about.features && about.features.length) { %>
+                <ul class="check-list">
+                    <% about.features.forEach(function(f) { %>
+                    <li>
+                        <div class="check-icon"><i class="fas fa-check"></i></div>
+                        <div>
+                            <strong><%= f.title %></strong>
+                            <span><%= f.description %></span>
+                        </div>
+                    </li>
+                    <% }); %>
+                </ul>
+                <% } %>
+                <a href="<%= about.ctaLink || '/doctors' %>" class="button btn-primary" style="margin-top:3rem; display:inline-flex; align-items:center; gap:1rem;">
+                    <%= about.ctaText || 'Get Started' %> <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+<%- include('partials/footer') %>
+<%- include('partials/scripts') %>
+</body>
+</html>

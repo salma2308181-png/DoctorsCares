@@ -1,0 +1,13 @@
+        <section class="dash-section active" id="section-earnings">
+            <div class="section-header-bar">
+                <h2 class="section-title"><i class="fas fa-chart-line"></i> Earnings</h2>
+                <div class="earnings-period-tabs">
+                    <button type="button" class="period-tab active" data-period="daily"><i class="fas fa-sun"></i> Daily</button>
+                    <button type="button" class="period-tab" data-period="weekly"><i class="fas fa-calendar-week"></i> Weekly</button>
+                    <button type="button" class="period-tab" data-period="monthly"><i class="fas fa-calendar"></i> Monthly</button>
+                </div>
+            </div>
+            <%- include('../earnings-panel', { earnings, period: 'daily' }) %>
+            <%- include('../earnings-panel', { earnings, period: 'weekly' }) %>
+            <%- include('../earnings-panel', { earnings, period: 'monthly' }) %>
+        </section>

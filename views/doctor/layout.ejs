@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %> – DoctorsCares</title>
+    <%- include('../partials/favicon') %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/doctor-dashboard.css">
+    <link rel="stylesheet" href="/css/medical-features.css">
+</head>
+<body class="dash-body">
+
+<%- include('_sidebar') %>
+
+<div class="dash-main" id="dash-main">
+    <%- include('_topbar') %>
+    <%- include('_flash') %>
+    <%- include(contentView) %>
+</div>
+
+<div class="toast-container" id="toast-container"></div>
+
+<div class="modal-overlay" id="appt-action-modal">
+    <div class="modal dash-modal">
+        <button type="button" class="modal-close" id="appt-modal-close"><i class="fas fa-times"></i></button>
+        <div id="appt-modal-content"></div>
+    </div>
+</div>
+<div class="modal-overlay" id="notes-modal">
+    <div class="modal dash-modal">
+        <button type="button" class="modal-close" id="notes-modal-close"><i class="fas fa-times"></i></button>
+        <div id="notes-modal-content"></div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/js/doctor-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+        <section class="dash-section active" id="section-records">
+            <h2 class="section-title"><i class="fas fa-file-medical"></i> Health Records</h2>
+            <p style="margin:-1rem 0 1.5rem;color:#64748b;font-size:0.9rem;">
+                Visit notes from completed consultations.
+                <a href="/patient/medical-history" style="color:#2563eb;">View full medical history timeline →</a>
+            </p>
+            <% if (healthRecords.length) { %>
+                <% healthRecords.forEach(function(r) { %>
+                <div class="dash-card" style="margin-bottom:1.5rem;">
+                    <div style="display:flex;gap:1.2rem;align-items:flex-start;">
+                        <img src="<%= r.avatar %>" alt="" style="width:4.8rem;height:4.8rem;border-radius:50%;">
+                        <div style="flex:1;">
+                            <div style="font-weight:600;font-size:1.6rem;"><%= r.diagnosis %></div>
+                            <div style="color:#64748b;font-size:1.3rem;margin:0.3rem 0;"><%= r.doctorName %> · <%= r.specialty %> · <%= r.date %></div>
+                            <p style="font-size:1.4rem;line-height:1.6;color:#334155;margin-top:0.8rem;"><%= r.notes %></p>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+            <% } else { %>
+            <div class="dash-card"><p class="empty-panel" style="padding:2rem;">Your medical records will appear here after completed consultations.</p></div>
+            <% } %>
+        </section>

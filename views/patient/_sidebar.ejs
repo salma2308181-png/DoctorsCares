@@ -1,0 +1,30 @@
+    <aside class="dash-sidebar patient-sidebar" id="dash-sidebar">
+        <div class="sidebar-logo">
+            <a href="/" class="logo"><span>D</span>octors<span>C</span>ares<span class="dot">.</span></a>
+        </div>
+        <div class="sidebar-doctor-mini">
+            <div class="sdr-avatar-wrap">
+                <img src="<%= patient.avatar %>" alt="Patient">
+                <span class="sdr-status-dot"></span>
+            </div>
+            <div>
+                <div class="sdr-name"><%= patient.name %></div>
+                <div class="sdr-spec"><i class="fas fa-user"></i> Patient</div>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="/patient/dashboard" class="nav-link<%= activePage === 'dashboard' ? ' active' : '' %>"><i class="fas fa-th-large"></i><span>Overview</span></a></li>
+                <li><a href="/patient/appointments" class="nav-link<%= activePage === 'appointments' ? ' active' : '' %>"><i class="fas fa-calendar-check"></i><span>Appointments</span><% if (apptCounts.pending > 0) { %><span class="nav-badge"><%= apptCounts.pending %></span><% } %></a></li>
+                <li><a href="/patient/medical-history" class="nav-link<%= activePage === 'medical-history' ? ' active' : '' %>"><i class="fas fa-route"></i><span>Medical History</span></a></li>
+                <li><a href="/patient/family" class="nav-link<%= activePage === 'family' ? ' active' : '' %>"><i class="fas fa-people-roof"></i><span>Family</span></a></li>
+                <li><a href="/patient/records" class="nav-link<%= activePage === 'records' ? ' active' : '' %>"><i class="fas fa-file-medical"></i><span>Health Records</span></a></li>
+                <li><a href="/patient/doctors" class="nav-link<%= activePage === 'doctors' ? ' active' : '' %>"><i class="fas fa-user-md"></i><span>My Doctors</span></a></li>
+                <li><a href="/patient/notifications" class="nav-link<%= activePage === 'notifications' ? ' active' : '' %>"><i class="fas fa-bell"></i><span>Notifications</span><% if (unreadNotifCount > 0) { %><span class="nav-badge notif-badge"><%= unreadNotifCount %></span><% } %></a></li>
+                <li><a href="/patient/profile" class="nav-link<%= activePage === 'profile' ? ' active' : '' %>"><i class="fas fa-user-circle"></i><span>Profile</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="/auth/logout" class="nav-link logout-link"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+        </div>
+    </aside>

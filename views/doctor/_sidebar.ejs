@@ -1,0 +1,29 @@
+    <aside class="dash-sidebar" id="dash-sidebar">
+        <div class="sidebar-logo">
+            <a href="/" class="logo"><span>D</span>octors<span>C</span>ares<span class="dot">.</span></a>
+        </div>
+        <div class="sidebar-doctor-mini">
+            <div class="sdr-avatar-wrap">
+                <img src="<%= doctor.avatar %>" alt="Doctor" id="sidebar-avatar">
+                <span class="sdr-status-dot"></span>
+            </div>
+            <div>
+                <div class="sdr-name" id="sidebar-name"><%= doctor.name %></div>
+                <div class="sdr-spec" id="sidebar-spec"><%= doctor.specialty %></div>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="/doctor/dashboard" class="nav-link<%= activePage === 'dashboard' ? ' active' : '' %>"><i class="fas fa-th-large"></i><span>Overview</span></a></li>
+                <li><a href="/doctor/appointments" class="nav-link<%= activePage === 'appointments' ? ' active' : '' %>"><i class="fas fa-calendar-check"></i><span>Appointments</span><% if (apptCounts.pending > 0) { %><span class="nav-badge" id="badge-appt"><%= apptCounts.pending %></span><% } %></a></li>
+                <li><a href="/doctor/schedule" class="nav-link<%= activePage === 'schedule' ? ' active' : '' %>"><i class="fas fa-clock"></i><span>Schedule</span></a></li>
+                <li><a href="/doctor/patients" class="nav-link<%= activePage === 'patients' ? ' active' : '' %>"><i class="fas fa-users"></i><span>Patients</span></a></li>
+                <li><a href="/doctor/earnings" class="nav-link<%= activePage === 'earnings' ? ' active' : '' %>"><i class="fas fa-chart-line"></i><span>Earnings</span></a></li>
+                <li><a href="/doctor/notifications" class="nav-link<%= activePage === 'notifications' ? ' active' : '' %>"><i class="fas fa-bell"></i><span>Notifications</span><% if (unreadNotifCount > 0) { %><span class="nav-badge notif-badge" id="badge-notif"><%= unreadNotifCount %></span><% } %></a></li>
+                <li><a href="/doctor/profile" class="nav-link<%= activePage === 'profile' ? ' active' : '' %>"><i class="fas fa-user-circle"></i><span>Profile</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="/auth/logout" class="nav-link logout-link"><i class="fas fa-sign-out-alt"></i><span>Exit Dashboard</span></a>
+        </div>
+    </aside>

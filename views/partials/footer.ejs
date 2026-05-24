@@ -1,0 +1,53 @@
+﻿<% const footer = typeof siteFooter !== 'undefined' ? siteFooter : {}; %>
+<footer class="footer">
+    <div class="footer-grid">
+        <div class="col brand-col">
+            <h2 class="logo"><span>D</span>octors<span>C</span>ares<span class="dot" style="color:#2563eb">.</span></h2>
+            <p><%= footer.tagline || "Egypt's premier healthcare platform." %></p>
+            <% if (footer.socialLinks && footer.socialLinks.length) { %>
+            <div class="socials">
+                <% footer.socialLinks.forEach(function(s) { %>
+                <a href="<%= s.url || '#' %>" aria-label="<%= s.label %>" target="_blank" rel="noopener"><i class="<%= s.icon %>"></i></a>
+                <% }); %>
+            </div>
+            <% } %>
+        </div>
+        <div class="col">
+            <h3><i class="fas fa-compass"></i> Navigation</h3>
+            <a href="/"><i class="fas fa-home"></i> Home</a>
+            <a href="/doctors"><i class="fas fa-user-md"></i> Find Doctors</a>
+            <a href="/services"><i class="fas fa-concierge-bell"></i> Services</a>
+            <a href="/about"><i class="fas fa-info-circle"></i> About Us</a>
+            <a href="/blogs"><i class="fas fa-newspaper"></i> Blog</a>
+        </div>
+        <div class="col">
+            <h3>Specialties</h3>
+            <% if (footer.specialties && footer.specialties.length) { %>
+                <% footer.specialties.forEach(function(s) { %>
+                <a href="/doctors"><%= s.name %></a>
+                <% }); %>
+            <% } else { %>
+                <a href="/doctors">Browse Specialists</a>
+            <% } %>
+        </div>
+        <div class="col">
+            <h3>Contact</h3>
+            <% if (footer.phone) { %>
+            <a href="tel:<%= footer.phone.replace(/\s/g, '') %>"><i class="fas fa-phone-alt"></i> <%= footer.phone %></a>
+            <% } %>
+            <% if (footer.email) { %>
+            <a href="mailto:<%= footer.email %>"><i class="fas fa-envelope"></i> <%= footer.email %></a>
+            <% } %>
+            <% if (footer.address) { %>
+            <a href="/contact"><i class="fas fa-map-marker-alt"></i> <%= footer.address %></a>
+            <% } %>
+        </div>
+    </div>
+    <div class="bottom-bar">
+        <span><%= footer.copyrightText || '© DoctorsCares' %></span>
+        <div class="footer-links">
+            <a href="<%= footer.privacyLink || '#' %>">Privacy Policy</a>
+            <a href="<%= footer.termsLink || '#' %>">Terms of Use</a>
+        </div>
+    </div>
+</footer>

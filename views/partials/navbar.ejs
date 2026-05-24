@@ -1,0 +1,28 @@
+<header id="main-header">
+    <a href="/" class="logo"><span>D</span>octors<span>C</span>ares<span class="dot">.</span></a>
+    <nav class="navbar">
+        <ul>
+            <li><a href="/" class="<%= activePage === 'home' ? 'active' : '' %>"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="/doctors" class="<%= activePage === 'doctors' ? 'active' : '' %>"><i class="fas fa-user-md"></i> Find Doctors</a></li>
+            <li><a href="/services" class="<%= activePage === 'services' ? 'active' : '' %>"><i class="fas fa-concierge-bell"></i> Services</a></li>
+            <li><a href="/about" class="<%= activePage === 'about' ? 'active' : '' %>"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="/blogs" class="<%= activePage === 'blogs' ? 'active' : '' %>"><i class="fas fa-newspaper"></i> Blog</a></li>
+            <li><a href="/contact" class="<%= activePage === 'contact' ? 'active' : '' %>"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </nav>
+    <div class="header-actions">
+        <% if (user) { %>
+            <% const dashHref = user.role === 'admin' ? '/admin/dashboard' : (user.role === 'doctor' ? '/doctor/dashboard' : '/patient/dashboard'); %>
+            <a href="<%= dashHref %>" class="btn-login" style="margin-right:0.8rem;">
+                <i class="fas fa-th-large"></i> Dashboard
+            </a>
+            <a href="/auth/logout" class="btn-login" style="background:transparent;border:1.5px solid var(--border);color:var(--text);">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        <% } else { %>
+            <a href="/auth/login" class="btn-login">
+                <i class="fas fa-user-circle"></i> Login / Sign Up
+            </a>
+        <% } %>
+    </div>
+</header>

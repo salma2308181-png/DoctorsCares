@@ -1,0 +1,43 @@
+﻿<% const pageTitle = 'Blog | DoctorsCares'; %>
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+<%- include('partials/navbar') %>
+
+    <section id="blogs" class="blogs">
+        <% if (page.sectionLabel) { %>
+        <div class="section-label"><%= page.sectionLabel %></div>
+        <% } %>
+        <h1 class="heading"><%= page.heading %> <span><%= page.headingHighlight %></span></h1>
+        <% if (page.description) { %>
+        <p class="section-sub"><%= page.description %></p>
+        <% } %>
+        <div class="box-container blog-grid">
+            <% blogs.forEach(function(post) { %>
+            <div class="blog-card<%= post.featured ? ' featured-blog' : '' %>">
+                <div class="blog-image">
+                    <% if (post.imageUrl) { %>
+                    <img src="<%= post.imageUrl %>" alt="<%= post.title %>">
+                    <% } %>
+                    <% if (post.tag) { %>
+                    <div class="blog-tag"><%= post.tag %></div>
+                    <% } %>
+                </div>
+                <div class="blog-content">
+                    <% if (post.dateLabel) { %>
+                    <span class="blog-date"><i class="fas fa-calendar-alt"></i> <%= post.dateLabel %></span>
+                    <% } %>
+                    <h3><%= post.title %></h3>
+                    <p><%= post.excerpt %></p>
+                    <a href="<%= post.link || '#' %>" class="card-link">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </section>
+
+<%- include('partials/footer') %>
+<%- include('partials/scripts') %>
+</body>
+</html>

@@ -1,0 +1,87 @@
+﻿<% const pageTitle = 'DoctorsCares | Premier Healthcare Portal'; %>
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+<%- include('partials/navbar') %>
+
+    <section id="home" class="home">
+        <div class="hero-bg-shape"></div>
+        <div class="hero-bg-dots"></div>
+        <div class="content animate-up">
+            <% if (home.sectionLabel) { %>
+            <div class="hero-badge"><i class="fas fa-shield-alt"></i> <%= home.sectionLabel %></div>
+            <% } %>
+            <h1><%= home.heading %><br><span><%= home.headingHighlight %></span></h1>
+            <p><%= home.description %></p>
+            <div class="hero-cta">
+                <a href="<%= home.ctaLink || '/doctors' %>" class="button btn-primary">
+                    <i class="fas fa-search"></i> <%= home.ctaText || 'Find a Specialist' %>
+                </a>
+                <% if (home.secondaryCtaText) { %>
+                <a href="<%= home.secondaryCtaLink || '/about' %>" class="button btn-ghost">
+                    <%= home.secondaryCtaText %> <i class="fas fa-arrow-right"></i>
+                </a>
+                <% } %>
+            </div>
+            <% if (home.stats && home.stats.length) { %>
+            <div class="hero-stats">
+                <% home.stats.forEach(function(stat, i) { %>
+                <% if (i > 0) { %><div class="stat-divider"></div><% } %>
+                <div class="stat"><strong><%= stat.value %></strong><span><%= stat.label %></span></div>
+                <% }); %>
+            </div>
+            <% } %>
+        </div>
+        <div class="hero-image animate-fade">
+            <% if (home.heroCards && home.heroCards[0]) { %>
+            <div class="hero-card floating-card card-top">
+                <i class="fas <%= home.heroCards[0].icon || 'fa-check-circle' %>"></i>
+                <div>
+                    <strong><%= home.heroCards[0].title %></strong>
+                    <span><%= home.heroCards[0].subtitle %></span>
+                </div>
+            </div>
+            <% } %>
+            <img src="<%= home.imageUrl %>" alt="Healthcare">
+            <% if (home.heroCards && home.heroCards[1]) { %>
+            <div class="hero-card floating-card card-bottom">
+                <i class="fas <%= home.heroCards[1].icon || 'fa-star' %>" style="color:#f59e0b"></i>
+                <div>
+                    <strong><%= home.heroCards[1].title %></strong>
+                    <span><%= home.heroCards[1].subtitle %></span>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <% if (home.testimonialsSectionLabel) { %>
+        <div class="section-label"><%= home.testimonialsSectionLabel %></div>
+        <% } %>
+        <h1 class="heading"><%= home.testimonialsHeading || 'What Patients' %> <span><%= home.testimonialsHeadingHighlight || 'Say' %></span></h1>
+        <div class="testimonials-grid">
+            <% testimonials.forEach(function(t) { %>
+            <div class="testimonial-card<%= t.featured ? ' featured' : '' %>">
+                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                <p>"<%= t.quote %>"</p>
+                <div class="testimonial-author">
+                    <% if (t.authorImage) { %>
+                    <img src="<%= t.authorImage %>" alt="<%= t.authorName %>">
+                    <% } %>
+                    <div>
+                        <strong><%= t.authorName %></strong>
+                        <% if (t.authorMeta) { %><span><%= t.authorMeta %></span><% } %>
+                    </div>
+                    <div class="stars">★★★★★</div>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </section>
+
+<%- include('partials/footer') %>
+<%- include('partials/scripts') %>
+</body>
+</html>

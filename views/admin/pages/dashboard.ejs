@@ -1,0 +1,163 @@
+﻿        <section class="admin-page-content">
+            <div class="section-greeting">
+                <div>
+                    <h1 class="dash-greeting">Control Panel</h1>
+                    <p class="dash-subgreeting">Platform overview — monitor everything in real time.</p>
+                </div>
+                <a href="/admin/reports" class="btn-primary-dash">
+                    <i class="fas fa-chart-bar"></i> View Full Reports
+                </a>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card stat-blue">
+                    <div class="stat-icon"><i class="fas fa-user-md"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value"><%= s.totalDoctors || 0 %></span>
+                        <span class="stat-label">Total Doctors</span>
+                        <% if (rep.newDoctorsMonth) { %><span class="stat-change positive"><i class="fas fa-arrow-up"></i> +<%= rep.newDoctorsMonth %> this month</span><% } %>
+                    </div>
+                </div>
+                <div class="stat-card stat-green">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value"><%= s.totalPatients || 0 %></span>
+                        <span class="stat-label">Registered Patients</span>
+                        <% if (rep.newPatientsMonth) { %><span class="stat-change positive"><i class="fas fa-arrow-up"></i> +<%= rep.newPatientsMonth %> this month</span><% } %>
+                    </div>
+                </div>
+                <div class="stat-card stat-amber">
+                    <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value"><%= s.totalBookings || 0 %></span>
+                        <span class="stat-label">Total Bookings</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-purple">
+                    <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value"><%= fmtMoney(s.monthlyRevenue) %></span>
+                        <span class="stat-label">Monthly Revenue</span>
+                    </div>
+                </div>
+            </div>
+
+            <% if (s.pendingDoctors > 0) { %>
+            <div class="alert-banner alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <strong><%= s.pendingDoctors %> Pending Doctor Registration<%= s.pendingDoctors === 1 ? '' : 's' %></strong> awaiting your review and approval.
+                </div>
+                <a href="/admin/doctors" class="btn-alert-action">Review Now <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <% } %>
+
+            <div class="overview-grid">
+                <div class="dash-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-bolt"></i> Recent Activity</h3>
+                        <span class="card-tag">Live</span>
+                    </div>
+                    <div class="activity-list">
+                        <% if (recentActivity && recentActivity.length) { %>
+                            <% recentActivity.forEach(function(item) { %>
+                            <div class="activity-item<%= item.type === 'doctor' ? ' activity-new' : '' %>">
+                                <div class="act-icon act-<%= item.type === 'doctor' ? 'doctor' : 'booking' %>"><i class="fas fa-<%= item.type === 'doctor' ? 'user-md' : 'calendar' %>"></i></div>
+                                <div class="act-content"><%- item.text %> <span class="act-time"><%= item.time %></span></div>
+                                <span class="act-badge <%= item.badgeClass %>"><%= item.badge %></span>
+                            </div>
+                            <% }); %>
+                        <% } else { %>
+                            <p style="padding:2rem;text-align:center;color:var(--text-muted);">No recent activity yet.</p>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-rocket"></i> Quick Actions</h3>
+                    </div>
+                    <div class="quick-actions-grid">
+                        <a href="/admin/doctors" class="quick-action-btn">
+                            <i class="fas fa-user-check"></i>
+                            <span>Approve Doctors</span>
+                            <% if (s.pendingDoctors > 0) { %><span class="qa-badge"><%= s.pendingDoctors %></span><% } %>
+                        </a>
+                        <a href="/admin/payments" class="quick-action-btn">
+                            <i class="fas fa-undo"></i>
+                            <span>Handle Refunds</span>
+                            <% if (s.pendingRefunds > 0) { %><span class="qa-badge"><%= s.pendingRefunds %></span><% } %>
+                        </a>
+                        <a href="/admin/notifications" class="quick-action-btn">
+                            <i class="fas fa-bullhorn"></i>
+                            <span>Announcement</span>
+                        </a>
+                        <a href="/admin/categories" class="quick-action-btn">
+                            <i class="fas fa-star"></i>
+                            <span>Feature Doctor</span>
+                        </a>
+                        <a href="/admin/patients" class="quick-action-btn">
+                            <i class="fas fa-ban"></i>
+                            <span>Ban User</span>
+                        </a>
+                        <a href="/admin/appointments" class="quick-action-btn">
+                            <i class="fas fa-times-circle"></i>
+                            <span>Force Cancel</span>
+                        </a>
+                    </div>
+                    <div class="system-status-box">
+                        <div class="ss-title"><i class="fas fa-server"></i> System Health</div>
+                        <div class="ss-items">
+                            <div class="ss-item"><span>API Server</span><span class="ss-dot green"></span></div>
+                            <div class="ss-item"><span>Database</span><span class="ss-dot green"></span></div>
+                            <div class="ss-item"><span>Email Service</span><span class="ss-dot green"></span></div>
+                            <div class="ss-item"><span>Payment Gateway</span><span class="ss-dot green"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overview-grid-3">
+                <div class="dash-card mini-chart-card">
+                    <div class="card-header"><h3>Bookings This Week</h3></div>
+                    <% if (weeklyBookings && weeklyBookings.length) { %>
+                    <div class="bar-chart-mini">
+                        <% weeklyBookings.forEach(function(day, idx) { %>
+                        <div class="bar-col">
+                            <div class="bar<%= idx === new Date().getDay() ? ' bar-today' : (day.count === 0 ? ' bar-dim' : '') %>" style="height:<%= day.height %>%"></div>
+                            <span><%= day.label %></span>
+                        </div>
+                        <% }); %>
+                    </div>
+                    <% } else { %>
+                    <p style="padding:2rem;text-align:center;color:var(--text-muted);">No booking data this week.</p>
+                    <% } %>
+                </div>
+                <div class="dash-card mini-chart-card">
+                    <div class="card-header"><h3>Revenue Summary</h3></div>
+                    <div class="revenue-summary">
+                        <div class="rev-big"><%= fmtMoney(pay.monthlyRevenue) %></div>
+                        <div class="rev-sub">Platform Commission (<%= pay.commissionPercent || 15 %>%): <strong><%= fmtMoney(pay.commission) %></strong></div>
+                        <% if (s.pendingRefunds > 0) { %>
+                        <div class="rev-sub" style="margin-top:0.8rem;color:#d97706;"><i class="fas fa-undo"></i> <%= s.pendingRefunds %> pending refund<%= s.pendingRefunds === 1 ? '' : 's' %></div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="dash-card mini-chart-card">
+                    <div class="card-header"><h3>Top Specialties</h3></div>
+                    <% if (rep.specialtyBreakdown && rep.specialtyBreakdown.length) { %>
+                    <div class="specialty-bars">
+                        <% rep.specialtyBreakdown.forEach(function(spec) { %>
+                        <div class="spec-bar-item">
+                            <span><%= spec.name %></span>
+                            <div class="spec-bar-track"><div class="spec-bar-fill" style="width:<%= spec.percent %>%"></div></div>
+                            <span><%= spec.percent %>%</span>
+                        </div>
+                        <% }); %>
+                    </div>
+                    <% } else { %>
+                    <p style="padding:2rem;text-align:center;color:var(--text-muted);">No specialty data yet.</p>
+                    <% } %>
+                </div>
+            </div>
+        </section>

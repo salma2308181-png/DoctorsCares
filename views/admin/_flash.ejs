@@ -1,0 +1,10 @@
+<% if (flash && flash.success) { %>
+<div class="alert-banner" style="background:#ecfdf5;border-color:#10b981;color:#065f46;margin:2rem 2rem 0;">
+    <i class="fas fa-check-circle"></i> <%= flash.success %>
+</div>
+<% } %>
+<% if (flash && flash.error) { %>
+<div class="alert-banner alert-danger" style="margin:2rem 2rem 0;">
+    <i class="fas fa-exclamation-circle"></i> <%= flash.error %>
+</div>
+<% } %>

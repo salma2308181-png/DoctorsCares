@@ -1,0 +1,45 @@
+        <section class="dash-section active medical-timeline-page">
+            <div class="section-header-bar" style="margin-bottom:1.5rem;">
+                <h2 class="section-title" style="margin:0;"><i class="fas fa-route"></i> My Medical History</h2>
+            </div>
+
+            <p style="color:#64748b;font-size:0.9rem;margin-bottom:1.25rem;">
+                Your personal health timeline — visits, tests, and follow-ups recorded by your doctors after consultations.
+            </p>
+
+            <% if (medicalHistory.timelineByYear.length) { %>
+                <% medicalHistory.timelineByYear.forEach(function(yearBlock) { %>
+                <div class="timeline-year-block">
+                    <div class="timeline-year-label"><%= yearBlock.year %></div>
+                    <div class="medical-timeline">
+                        <% yearBlock.events.forEach(function(ev) { %>
+                        <div class="timeline-event">
+                            <span class="timeline-event-dot color-<%= ev.color %>"></span>
+                            <div class="timeline-event-card">
+                                <div class="timeline-event-month"><%= ev.monthYear %></div>
+                                <div class="timeline-event-title">
+                                    <i class="fas <%= ev.icon %>"></i>
+                                    <%= ev.title %>
+                                </div>
+                                <div class="timeline-event-meta">
+                                    <%= ev.categoryLabel %>
+                                    <% if (ev.provider) { %> · <%= ev.provider %><% } %>
+                                    · <%= ev.fullDate %>
+                                </div>
+                                <% if (ev.notes) { %>
+                                <div class="timeline-event-notes"><%= ev.notes %></div>
+                                <% } %>
+                            </div>
+                        </div>
+                        <% }); %>
+                    </div>
+                </div>
+                <% }); %>
+            <% } else { %>
+            <div class="dash-card">
+                <p class="empty-panel" style="padding:2rem;text-align:center;">
+                    No medical history yet. Records appear here after your doctor completes a visit and saves notes.
+                </p>
+            </div>
+            <% } %>
+        </section>

@@ -1,0 +1,84 @@
+        <section class="dash-section active" id="section-appointments">
+            <div class="section-header-bar">
+                <h2 class="section-title"><i class="fas fa-calendar-check"></i> My Appointments</h2>
+                <button type="button" class="btn-primary-dash" id="btn-open-book"><i class="fas fa-plus"></i> Book New</button>
+            </div>
+
+            <div class="dash-card" id="book" style="margin-bottom:2rem;">
+                <h3 style="margin-bottom:1.5rem;"><i class="fas fa-calendar-plus"></i> Book an Appointment</h3>
+                <form action="/patient/appointments/book" method="post" class="form-grid-book">
+                    <input type="hidden" name="redirectTo" value="/patient/appointments">
+                    <div class="form-field-dash">
+                        <label>Book for</label>
+                        <select name="familyMemberId" class="dash-input">
+                            <option value="">Myself — <%= patient.name %></option>
+                            <% familyMembers.forEach(function(f) { %>
+                            <option value="<%= f.id %>" <%= activeFamilyMemberId === f.id ? 'selected' : '' %>><%= f.fullName %> (<%= f.relationshipLabel %>)</option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="form-field-dash">
+                        <label>Doctor</label>
+                        <select name="doctorId" class="dash-input" required>
+                            <option value="">Select a doctor</option>
+                            <% availableDoctors.forEach(function(d) { %>
+                            <option value="<%= d.id %>" <%= preselectDoctorId === d.id ? 'selected' : '' %>><%= d.name %> — <%= d.specialty %> (<%= d.fee %> EGP)</option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="form-field-dash">
+                        <label>Date</label>
+                        <input type="date" name="appointmentDate" class="dash-input" required min="<%= new Date().toISOString().slice(0,10) %>">
+                    </div>
+                    <div class="form-field-dash">
+                        <label>Time</label>
+                        <select name="timeSlot" class="dash-input" required>
+                            <option value="9:00 AM">9:00 AM</option>
+                            <option value="10:00 AM">10:00 AM</option>
+                            <option value="11:00 AM">11:00 AM</option>
+                            <option value="12:00 PM">12:00 PM</option>
+                            <option value="2:00 PM">2:00 PM</option>
+                            <option value="3:00 PM">3:00 PM</option>
+                            <option value="4:00 PM">4:00 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-field-dash" style="grid-column:1/-1;">
+                        <label>Reason for visit</label>
+                        <input type="text" name="reason" class="dash-input" placeholder="e.g. Follow-up consultation" required>
+                    </div>
+                    <div style="grid-column:1/-1;">
+                        <button type="submit" class="btn-primary-dash"><i class="fas fa-paper-plane"></i> Request Appointment</button>
+                    </div>
+                </form>
+                <% if (!availableDoctors.length) { %>
+                <p style="margin-top:1rem;color:#94a3b8;">No verified doctors available. Please check back later.</p>
+                <% } %>
+            </div>
+
+            <% const tab = apptTab || 'upcoming'; %>
+            <div class="appt-tabs">
+                <button type="button" class="appt-tab<%= tab === 'upcoming' ? ' active' : '' %>" data-filter="upcoming"><i class="fas fa-calendar-day"></i> Upcoming <% if (apptCounts.upcoming) { %><span class="tab-badge"><%= apptCounts.upcoming %></span><% } %></button>
+                <button type="button" class="appt-tab<%= tab === 'pending' ? ' active' : '' %>" data-filter="pending"><i class="fas fa-hourglass-half"></i> Pending <% if (apptCounts.pending) { %><span class="tab-badge"><%= apptCounts.pending %></span><% } %></button>
+                <button type="button" class="appt-tab<%= tab === 'past' ? ' active' : '' %>" data-filter="past"><i class="fas fa-history"></i> Past</button>
+                <button type="button" class="appt-tab<%= tab === 'cancelled' ? ' active' : '' %>" data-filter="cancelled"><i class="fas fa-calendar-times"></i> Cancelled</button>
+            </div>
+            <div class="appointments-list appt-panel" id="appt-panel-upcoming" style="<%= tab !== 'upcoming' ? 'display:none' : '' %>">
+                <% if (appointments.upcoming.length) { appointments.upcoming.forEach(function(a) { %><%- include('../appt-card', { a }) %><% }); %>
+                <% } else { %><p class="empty-panel">No upcoming appointments.</p><% } %>
+            </div>
+            <div class="appointments-list appt-panel" id="appt-panel-pending" style="<%= tab === 'pending' ? '' : 'display:none' %>">
+                <% if (appointments.pending.length) { appointments.pending.forEach(function(a) { %><%- include('../appt-card', { a }) %><% }); %>
+                <% } else { %><p class="empty-panel">No pending requests.</p><% } %>
+            </div>
+            <div class="appointments-list appt-panel" id="appt-panel-past" style="<%= tab === 'past' ? '' : 'display:none' %>">
+                <% if (appointments.past.length) { appointments.past.forEach(function(a) { %><%- include('../appt-card', { a }) %><% }); %>
+                <% } else { %><p class="empty-panel">No past visits yet.</p><% } %>
+            </div>
+            <div class="appointments-list appt-panel" id="appt-panel-cancelled" style="<%= tab === 'cancelled' ? '' : 'display:none' %>">
+                <% if (appointments.cancelled.length) { appointments.cancelled.forEach(function(a) { %><%- include('../appt-card', { a }) %><% }); %>
+                <% } else { %><p class="empty-panel">No cancelled appointments.</p><% } %>
+            </div>
+        </section>
+        <% if (scrollToBook) { %>
+        <script>window.__SCROLL_TO_BOOK__ = true;</script>
+        <% } %>

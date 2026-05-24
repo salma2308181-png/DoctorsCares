@@ -1,0 +1,92 @@
+        <section class="dash-section active" id="section-schedule">
+            <div class="section-header-bar">
+                <h2 class="section-title"><i class="fas fa-clock"></i> Schedule Management</h2>
+            </div>
+            <form action="/doctor/schedule" method="post" class="schedule-grid">
+                <div class="sched-card">
+                    <h3 class="sched-card-title"><i class="fas fa-calendar-week"></i> Working Days & Hours</h3>
+                    <div class="days-grid">
+                        <% schedule.days.forEach(function(d) { %>
+                        <div class="day-row <%= d.active ? 'active' : '' %>">
+                            <input type="hidden" name="day_<%= d.day %>_active" value="off">
+                            <label class="day-toggle-wrap">
+                                <input type="checkbox" class="day-active-cb" name="day_<%= d.day %>_active" value="on" <%= d.active ? 'checked' : '' %>>
+                                <span class="day-toggle <%= d.active ? 'on' : '' %>"></span>
+                            </label>
+                            <span class="day-name"><%= d.day %></span>
+                            <div class="day-hours">
+                                <input type="time" name="day_<%= d.day %>_from" value="<%= d.from %>" class="day-from">
+                                <span>–</span>
+                                <input type="time" name="day_<%= d.day %>_to" value="<%= d.to %>" class="day-to">
+                            </div>
+                        </div>
+                        <% }); %>
+                    </div>
+                </div>
+                <div class="sched-card">
+                    <h3 class="sched-card-title"><i class="fas fa-hourglass-half"></i> Appointment Settings</h3>
+                    <div class="form-field-dash">
+                        <label>Appointment Duration (minutes)</label>
+                        <select name="appointmentDuration" class="dash-input">
+                            <% [15,20,30,45,60].forEach(function(v) { %>
+                            <option value="<%= v %>" <%= schedule.duration === v ? 'selected' : '' %>><%= v %> min</option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="form-field-dash" style="margin-top:2rem;">
+                        <label>Lunch Break</label>
+                        <div class="break-row">
+                            <input type="time" name="lunchBreakStart" value="<%= schedule.lunchStart %>" class="dash-input">
+                            <span class="break-to">to</span>
+                            <input type="time" name="lunchBreakEnd" value="<%= schedule.lunchEnd %>" class="dash-input">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary-dash" style="margin-top:2rem;"><i class="fas fa-save"></i> Save Settings</button>
+                </div>
+                <div class="sched-card">
+                    <h3 class="sched-card-title"><i class="fas fa-ban"></i> Block Dates</h3>
+                    <div class="form-field-dash">
+                        <label>Select Date to Block</label>
+                        <input type="date" name="blockDate" class="dash-input" form="block-date-form">
+                    </div>
+                    <div class="form-field-dash" style="margin-top:1.5rem;">
+                        <label>Reason (optional)</label>
+                        <input type="text" name="blockReason" placeholder="e.g. Conference, Leave..." class="dash-input" form="block-date-form">
+                    </div>
+                    <button type="submit" class="btn-outline-dash" style="margin-top:1.5rem;" form="block-date-form"><i class="fas fa-plus"></i> Block This Date</button>
+                    <div class="blocked-dates-list">
+                        <% if (schedule.blockedDates.length) { %>
+                            <% schedule.blockedDates.forEach(function(b, i) { %>
+                            <div class="blocked-date-item">
+                                <span><i class="fas fa-ban"></i> <%= b.date %><% if (b.reason) { %> – <%= b.reason %><% } %></span>
+                                <form action="/doctor/schedule/block/<%= i %>/delete" method="post" style="display:inline;">
+                                    <button type="submit"><i class="fas fa-times"></i></button>
+                                </form>
+                            </div>
+                            <% }); %>
+                        <% } else { %>
+                            <div style="font-size:1.3rem;color:#94a3b8;text-align:center;padding:1.5rem 0;">No blocked dates</div>
+                        <% } %>
+                    </div>
+                </div>
+            </form>
+            <form id="block-date-form" action="/doctor/schedule/block" method="post"></form>
+
+            <% if (typeof scheduleOptimizer !== 'undefined' && scheduleOptimizer) { %>
+            <div class="sched-card" style="margin-top:1.5rem;">
+                <h3 class="sched-card-title"><i class="fas fa-wand-magic-sparkles"></i> Smart Schedule Optimizer</h3>
+                <div class="schedule-opt-card" style="margin-top:1rem;">
+                    <div class="schedule-opt-stat">
+                        <span>Empty slots today: <strong><%= scheduleOptimizer.emptySlots.length ? scheduleOptimizer.emptySlots.join(', ') : 'None' %></strong></span>
+                        <span>Utilization: <strong><%= scheduleOptimizer.utilization %>%</strong></span>
+                    </div>
+                    <% if (scheduleOptimizer.overbooked.length) { %>
+                    <p style="color:#dc2626;font-size:0.88rem;margin:0.5rem 0;"><i class="fas fa-exclamation-triangle"></i> Overbooking detected at <%= scheduleOptimizer.overbooked.map(function(o) { return o.slot; }).join(', ') %></p>
+                    <% } %>
+                    <% scheduleOptimizer.suggestions.forEach(function(s) { %>
+                    <div class="schedule-suggestion type-<%= s.type %>"><i class="fas fa-lightbulb"></i><span><%= s.message %></span></div>
+                    <% }); %>
+                </div>
+            </div>
+            <% } %>
+        </section>

@@ -1,0 +1,74 @@
+        <section class="dash-section active" id="section-overview">
+            <div class="section-greeting">
+                <div>
+                    <h1 class="dash-greeting" id="greeting-text">Welcome, <%= patient.firstName %></h1>
+                    <p class="dash-subgreeting">Manage appointments and your health journey in one place.</p>
+                </div>
+                <a href="/patient/appointments?focus=book" class="btn-primary-dash"><i class="fas fa-calendar-plus"></i> Book Appointment</a>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card stat-blue">
+                    <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-number"><%= stats.upcomingCount %></div>
+                        <div class="stat-label">Upcoming Visits</div>
+                    </div>
+                </div>
+                <div class="stat-card stat-green">
+                    <div class="stat-icon"><i class="fas fa-user-md"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-number"><%= stats.doctorsVisited %></div>
+                        <div class="stat-label">Doctors Visited</div>
+                    </div>
+                </div>
+                <div class="stat-card stat-amber">
+                    <div class="stat-icon"><i class="fas fa-file-medical"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-number"><%= stats.recordsCount %></div>
+                        <div class="stat-label">Medical Records</div>
+                    </div>
+                </div>
+            </div>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <div class="ov-card-header">
+                        <h3><i class="fas fa-calendar-check"></i> Upcoming Visits</h3>
+                        <a href="/patient/appointments" class="ov-view-all">View All</a>
+                    </div>
+                    <div class="today-appointments">
+                        <% if (upcomingAppointments.length) { %>
+                            <% upcomingAppointments.forEach(function(a) { %>
+                            <div class="today-appt-item">
+                                <div class="appt-time-badge"><%= a.time %></div>
+                                <div class="appt-item-avatar"><img src="<%= a.avatar %>" alt=""></div>
+                                <div>
+                                    <div class="appt-item-name">Dr. <%= a.doctorName.replace(/^Dr\.?\s*/i, '') %></div>
+                                    <div class="appt-item-reason"><%= a.specialty %> · <%= a.date %></div>
+                                </div>
+                                <span class="appt-item-status status-<%= a.status %>"><%= a.status.charAt(0).toUpperCase() + a.status.slice(1) %></span>
+                            </div>
+                            <% }); %>
+                        <% } else { %>
+                            <p style="padding:2rem;text-align:center;color:#94a3b8;">No upcoming visits. <a href="/patient/appointments?focus=book">Book one</a>.</p>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="ov-card-header">
+                        <h3><i class="fas fa-bell"></i> Recent Updates</h3>
+                        <a href="/patient/notifications" class="ov-view-all">View All</a>
+                    </div>
+                    <div class="mini-notifs">
+                        <% notifications.slice(0, 4).forEach(function(n) { %>
+                        <div class="mini-notif-item">
+                            <div class="mini-notif-icon notif-<%= n.color %>"><i class="fas <%= n.icon %>"></i></div>
+                            <div>
+                                <div class="mini-notif-text"><strong><%= n.title %></strong> — <%= n.body.length > 50 ? n.body.substring(0,50) + '...' : n.body %></div>
+                                <div class="mini-notif-time"><%= n.time %></div>
+                            </div>
+                        </div>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+        </section>

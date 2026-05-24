@@ -1,0 +1,447 @@
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoctorsCares | Premier Healthcare Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header id="main-header">
+        <a href="/" class="logo"><span>D</span>octors<span>C</span>ares<span class="dot">.</span></a>
+        <nav class="navbar">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#doctors">Find Doctors</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#blogs">Blog</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="/auth/login" class="btn-login">
+                <i class="fas fa-user-circle"></i> Login / Sign Up
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section id="home" class="home">
+        <div class="hero-bg-shape"></div>
+        <div class="hero-bg-dots"></div>
+        <div class="content animate-up">
+            <div class="hero-badge"><i class="fas fa-shield-alt"></i> Egypt's #1 Trusted Healthcare Platform</div>
+            <h1>Your Health,<br><span>Our Priority.</span></h1>
+            <p>Connect with Egypt's most verified specialists. Book appointments in seconds, get real-time confirmations, and take control of your health journey.</p>
+            <div class="hero-cta">
+                <a href="#doctors" class="button btn-primary">
+                    <i class="fas fa-search"></i> Find a Specialist
+                </a>
+                <a href="#about" class="button btn-ghost">
+                    Learn More <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat"><strong>500+</strong><span>Verified Doctors</span></div>
+                <div class="stat-divider"></div>
+                <div class="stat"><strong>50K+</strong><span>Happy Patients</span></div>
+                <div class="stat-divider"></div>
+                <div class="stat"><strong>4.9★</strong><span>Average Rating</span></div>
+            </div>
+        </div>
+        <div class="hero-image animate-fade">
+            <div class="hero-card floating-card card-top">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <strong>Appointment Confirmed</strong>
+                    <span>Dr. Zeina - Today 3:00 PM</span>
+                </div>
+            </div>
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=800&q=80" alt="Doctor">
+            <div class="hero-card floating-card card-bottom">
+                <i class="fas fa-star" style="color:#f59e0b"></i>
+                <div>
+                    <strong>Rated 5.0</strong>
+                    <span>By 2,400 patients</span>
+                </div>
+            </div>
+        </div>  
+    </section>
+
+    <!-- SEARCH & DOCTORS -->
+    <section id="doctors" class="doctors-search-container">
+        <div class="section-label">Our Specialists</div>
+        <h1 class="heading">Find Your <span>Doctor</span></h1>
+        <p class="section-sub">Browse our network of board-certified specialists and book your visit today.</p>
+
+        <div class="search-bar-wrapper">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search by name or specialty...">
+            </div>
+        </div>
+
+        <div class="search-layout">
+            <aside class="filter-sidebar">
+                <h3><i class="fas fa-sliders-h"></i> Filter Results</h3>
+                <div class="filter-group">
+                    <label>Professional Title</label>
+                    <select id="filter-title">
+                        <option value="all">All Titles</option>
+                        <option value="Professor">Professor</option>
+                        <option value="Consultant">Consultant</option>
+                        <option value="Specialist">Specialist</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Gender</label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="gender" value="all" checked><span>Both</span></label>
+                        <label class="radio-label"><input type="radio" name="gender" value="Male"><span>Male</span></label>
+                        <label class="radio-label"><input type="radio" name="gender" value="Female"><span>Female</span></label>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label>Consultation Price</label>
+                    <div class="range-wrapper">
+                        <input type="range" id="filter-price" min="100" max="1000" step="50" value="1000">
+                        <div class="range-labels">
+                            <span>100 EGP</span>
+                            <span id="price-value" class="price-tag">1000 EGP</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label>Minimum Rating</label>
+                    <div class="star-filter">
+                        <button class="star-btn active" data-rating="0">All</button>
+                        <button class="star-btn" data-rating="4">4+ ★</button>
+                        <button class="star-btn" data-rating="5">5 ★</button>
+                    </div>
+                </div>
+                <button id="reset-filters" class="button-outline"><i class="fas fa-undo"></i> Clear Filters</button>
+            </aside>
+
+            <main>
+                <div class="results-header">
+                    <span id="results-count"></span>
+                </div>
+                <div class="doctors-grid" id="doctor-list"></div>
+            </main>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="services">
+        <div class="services-inner">
+            <div class="section-label">What We Offer</div>
+            <h1 class="heading">World-Class <span>Services</span></h1>
+            <p class="section-sub">From emergency care to online consultations, we've got you covered.</p>
+            <div class="box-container">
+                <div class="box service-card">
+                    <div class="service-icon"><i class="fas fa-ambulance"></i></div>
+                    <h3>Emergency Care</h3>
+                    <p>24/7 rapid response teams ready for any critical medical situation, around the clock.</p>
+                    <a href="#" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="box service-card">
+                    <div class="service-icon"><i class="fas fa-video"></i></div>
+                    <h3>Telehealth</h3>
+                    <p>Consult with top specialists from the comfort and safety of your own home.</p>
+                    <a href="#" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="box service-card">
+                    <div class="service-icon"><i class="fas fa-pills"></i></div>
+                    <h3>Pharmacy</h3>
+                    <p>Order prescribed medicine online with fast, reliable doorstep delivery.</p>
+                    <a href="#" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="box service-card">
+                    <div class="service-icon"><i class="fas fa-file-medical-alt"></i></div>
+                    <h3>Medical Records</h3>
+                    <p>Securely store and access your complete health history anytime, anywhere.</p>
+                    <a href="#" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="about">
+        <div class="row">
+            <div class="about-image">
+                <div class="img-badge"><i class="fas fa-award"></i> #1 Rated Platform</div>
+                <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80" alt="Clinic">
+                <div class="img-stat-card">
+                    <strong>98%</strong>
+                    <span>Patient Satisfaction</span>
+                </div>
+            </div>
+            <div class="about-content">
+                <div class="section-label">About Us</div>
+                <h3>Why Choose <span>DoctorsCares</span>?</h3>
+                <p>We partner with the highest-rated medical professionals in Egypt to ensure you receive world-class treatment. Our platform is built to save you time and give you total peace of mind.</p>
+                <ul class="check-list">
+                    <li>
+                        <div class="check-icon"><i class="fas fa-check"></i></div>
+                        <div>
+                            <strong>100% Verified Doctors</strong>
+                            <span>Every physician undergoes strict credential verification.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="check-icon"><i class="fas fa-check"></i></div>
+                        <div>
+                            <strong>Instant Confirmation</strong>
+                            <span>Book an appointment and get confirmed in under 60 seconds.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="check-icon"><i class="fas fa-check"></i></div>
+                        <div>
+                            <strong>Full Patient History</strong>
+                            <span>Access your medical records, reports, and prescriptions anytime.</span>
+                        </div>
+                    </li>
+                </ul>
+                <a href="#doctors" class="button btn-primary" style="margin-top:3rem; display:inline-flex; align-items:center; gap:1rem;">
+                    Get Started <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials">
+        <div class="section-label">Patient Stories</div>
+        <h1 class="heading">What Patients <span>Say</span></h1>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                <p>"Booking was incredibly easy. I found a cardiologist and had a confirmed appointment within minutes. Truly life-changing."</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="">
+                    <div>
+                        <strong>Rana Mostafa</strong>
+                        <span>Patient since 2024</span>
+                    </div>
+                    <div class="stars">★★★★★</div>
+                </div>
+            </div>
+            <div class="testimonial-card featured">
+                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                <p>"The telehealth feature is phenomenal. I consulted with a top neurologist from home. The quality of care was exceptional."</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="">
+                    <div>
+                        <strong>Khaled Ibrahim</strong>
+                        <span>Patient since 2023</span>
+                    </div>
+                    <div class="stars">★★★★★</div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                <p>"I love how all my records are in one place. The doctors are verified and professional. This platform is a game-changer."</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="">
+                    <div>
+                        <strong>Dina Farouk</strong>
+                        <span>Patient since 2025</span>
+                    </div>
+                    <div class="stars">★★★★★</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOGS -->
+    <section id="blogs" class="blogs">
+        <div class="section-label">Stay Informed</div>
+        <h1 class="heading">Medical <span>Insights</span></h1>
+        <p class="section-sub">Expert articles from our medical team to keep you healthy and informed.</p>
+        <div class="box-container blog-grid">
+            <div class="blog-card">
+                <div class="blog-image">
+                    <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80" alt="">
+                    <div class="blog-tag">Nutrition</div>
+                </div>
+                <div class="blog-content">
+                    <span class="blog-date"><i class="fas fa-calendar-alt"></i> April 2026</span>
+                    <h3>The Power of Antioxidants</h3>
+                    <p>Learn how certain foods can dramatically boost your immune system and protect your body naturally.</p>
+                    <a href="#" class="card-link">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="blog-card featured-blog">
+                <div class="blog-image">
+                    <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=600&q=80" alt="">
+                    <div class="blog-tag">Cardiology</div>
+                </div>
+                <div class="blog-content">
+                    <span class="blog-date"><i class="fas fa-calendar-alt"></i> March 2026</span>
+                    <h3>Heart Health Essentials</h3>
+                    <p>Top 5 cardio exercises recommended by leading Egyptian cardiologists for a stronger heart.</p>
+                    <a href="#" class="card-link">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-image">
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80" alt="">
+                    <div class="blog-tag">Mental Health</div>
+                </div>
+                <div class="blog-content">
+                    <span class="blog-date"><i class="fas fa-calendar-alt"></i> February 2026</span>
+                    <h3>Managing Stress in 2026</h3>
+                    <p>Proven techniques from psychiatrists to manage stress and improve your overall wellbeing.</p>
+                    <a href="#" class="card-link">Read Article <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact">
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <div class="section-label">Get In Touch</div>
+                <h2>We're Here<br>to <span>Help You</span></h2>
+                <p>Have a question or need support? Our team is available 7 days a week to assist you.</p>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="ci-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div><strong>Call Us</strong><span>+20 100 000 0000</span></div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+                        <div><strong>Email Us</strong><span>support@doctorscares.eg</span></div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div><strong>Our Office</strong><span>New Cairo, Egypt</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-card">
+                <h3>Send a Message</h3>
+                <form class="contact-form">
+                    <div class="input-row">
+                        <div class="form-field">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="Ahmed Mohamed" required>
+                        </div>
+                        <div class="form-field">
+                            <label>Email Address</label>
+                            <input type="email" placeholder="ahmed@email.com" required>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label>Subject</label>
+                        <input type="text" placeholder="How can we help?">
+                    </div>
+                    <div class="form-field">
+                        <label>Message</label>
+                        <textarea placeholder="Write your message here..." rows="5"></textarea>
+                    </div>
+                    <button type="submit" class="button btn-primary">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="col brand-col">
+                <h2 class="logo"><span>D</span>octors<span>C</span>ares<span class="dot" style="color:#2563eb">.</span></h2>
+                <p>Egypt's premier platform connecting patients with verified, top-rated medical professionals.</p>
+                <div class="socials">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="col">
+                <h3>Navigation</h3>
+                <a href="#home">Home</a>
+                <a href="#doctors">Find Doctors</a>
+                <a href="#services">Services</a>
+                <a href="#about">About Us</a>
+                <a href="#blogs">Blog</a>
+            </div>
+            <div class="col">
+                <h3>Specialties</h3>
+                <a href="#">Cardiology</a>
+                <a href="#">Dermatology</a>
+                <a href="#">Neurology</a>
+                <a href="#">Orthopedics</a>
+                <a href="#">Pediatrics</a>
+            </div>
+            <div class="col">
+                <h3>Contact</h3>
+                <a href="#"><i class="fas fa-phone-alt"></i> +20 100 000 0000</a>
+                <a href="#"><i class="fas fa-envelope"></i> support@doctorscares.eg</a>
+                <a href="#"><i class="fas fa-map-marker-alt"></i> New Cairo, Egypt</a>
+            </div>
+        </div>
+        <div class="bottom-bar">
+            <span>© 2026 DoctorsCares | All Rights Reserved</span>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOOKING MODAL -->
+    <div class="modal-overlay" id="booking-modal">
+        <div class="modal">
+            <button class="modal-close" id="close-modal"><i class="fas fa-times"></i></button>
+            <div class="modal-header">
+                <i class="fas fa-calendar-check"></i>
+                <h2>Book Appointment</h2>
+            </div>
+            <div class="modal-doctor-info" id="modal-doctor-info"></div>
+            <form class="modal-form">
+                <div class="form-field">
+                    <label>Select Date</label>
+                    <input type="date" required>
+                </div>
+                <div class="form-field">
+                    <label>Preferred Time</label>
+                    <select>
+                        <option>9:00 AM</option>
+                        <option>10:00 AM</option>
+                        <option>11:00 AM</option>
+                        <option>12:00 PM</option>
+                        <option>2:00 PM</option>
+                        <option>3:00 PM</option>
+                        <option>4:00 PM</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>Visit Reason</label>
+                    <textarea placeholder="Briefly describe your symptoms or reason for visit..." rows="3"></textarea>
+                </div>
+                <button type="submit" class="button btn-primary" style="width:100%">
+                    <i class="fas fa-check-circle"></i> Confirm Booking
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
+>

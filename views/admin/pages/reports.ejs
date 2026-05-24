@@ -1,0 +1,87 @@
+﻿        <section class="admin-page-content">
+            <div class="section-greeting">
+                <div>
+                    <h1 class="dash-greeting">Reports & Analytics</h1>
+                    <p class="dash-subgreeting">Platform-wide statistics and performance metrics.</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card stat-blue"><div class="stat-icon"><i class="fas fa-user-md"></i></div><div class="stat-info"><span class="stat-value"><%= s.totalDoctors || 0 %></span><span class="stat-label">Total Doctors</span><% if (rep.newDoctorsMonth) { %><span class="stat-change positive"><i class="fas fa-arrow-up"></i> +<%= rep.newDoctorsMonth %> this month</span><% } %></div></div>
+                <div class="stat-card stat-green"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-info"><span class="stat-value"><%= s.totalPatients || 0 %></span><span class="stat-label">Active Patients</span><% if (rep.newPatientsMonth) { %><span class="stat-change positive"><i class="fas fa-arrow-up"></i> +<%= rep.newPatientsMonth %></span><% } %></div></div>
+                <div class="stat-card stat-amber"><div class="stat-icon"><i class="fas fa-calendar-check"></i></div><div class="stat-info"><span class="stat-value"><%= s.totalBookings || 0 %></span><span class="stat-label">Total Bookings</span></div></div>
+                <div class="stat-card stat-purple"><div class="stat-icon"><i class="fas fa-dollar-sign"></i></div><div class="stat-info"><span class="stat-value"><%= fmtMoney(s.monthlyRevenue) %></span><span class="stat-label">Monthly Revenue</span></div></div>
+            </div>
+
+            <div class="overview-grid">
+                <div class="dash-card">
+                    <div class="card-header"><h3><i class="fas fa-medal"></i> Top Doctor Performance</h3></div>
+                    <% if (topDoctors && topDoctors.length) { %>
+                    <div class="perf-list">
+                        <% topDoctors.forEach(function(doc) { %>
+                        <div class="perf-item">
+                            <span class="perf-rank<%= doc.rank <= 3 ? ' rank-' + doc.rank : '' %>"><%= doc.rank %></span>
+                            <img src="<%= avatarUrl(doc.name, 64) %>" alt="">
+                            <div class="perf-info"><strong><%= doc.name %></strong><small><%= doc.specialty %></small></div>
+                            <div class="perf-stats"><span><%= doc.appointments %> appts</span><span class="rating-stars">â˜… <%= doc.rating %></span></div>
+                        </div>
+                        <% }); %>
+                    </div>
+                    <% } else { %>
+                    <p style="padding:2rem;text-align:center;color:var(--text-muted);">No doctor performance data yet.</p>
+                    <% } %>
+                </div>
+
+                <div class="dash-card">
+                    <div class="card-header"><h3>Specialty Breakdown</h3></div>
+                    <% if (rep.specialtyBreakdown && rep.specialtyBreakdown.length) { %>
+                    <div class="specialty-bars">
+                        <% rep.specialtyBreakdown.forEach(function(spec) { %>
+                        <div class="spec-bar-item">
+                            <span><%= spec.name %></span>
+                            <div class="spec-bar-track"><div class="spec-bar-fill" style="width:<%= spec.percent %>%"></div></div>
+                            <span><%= spec.percent %>%</span>
+                        </div>
+                        <% }); %>
+                    </div>
+                    <% } else { %>
+                    <p style="padding:2rem;text-align:center;color:var(--text-muted);">No specialty breakdown available.</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="overview-grid-3" style="margin-top:2rem;">
+                <div class="dash-card">
+                    <div class="card-header"><h3>New Registrations</h3></div>
+                    <div class="reg-stats">
+                        <div class="reg-item"><div class="reg-label">Doctors This Month</div><div class="reg-value reg-blue">+<%= rep.newDoctorsMonth || 0 %></div></div>
+                        <div class="reg-item"><div class="reg-label">Patients This Month</div><div class="reg-value reg-green">+<%= rep.newPatientsMonth || 0 %></div></div>
+                        <div class="reg-item"><div class="reg-label">Completion Rate</div><div class="reg-value reg-amber"><%= rep.completionRate || 0 %>%</div></div>
+                        <div class="reg-item"><div class="reg-label">Cancellation Rate</div><div class="reg-value reg-red"><%= rep.cancellationRate || 0 %>%</div></div>
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="card-header"><h3>Bookings This Week</h3></div>
+                    <% if (weeklyBookings && weeklyBookings.length) { %>
+                    <div class="bar-chart-mini">
+                        <% weeklyBookings.forEach(function(day) { %>
+                        <div class="bar-col">
+                            <div class="bar" style="height:<%= day.height %>%"></div>
+                            <span><%= day.label %> (<%= day.count %>)</span>
+                        </div>
+                        <% }); %>
+                    </div>
+                    <% } else { %>
+                    <p style="padding:2rem;text-align:center;color:var(--text-muted);">No weekly booking data.</p>
+                    <% } %>
+                </div>
+                <div class="dash-card">
+                    <div class="card-header"><h3>Finance Snapshot</h3></div>
+                    <div class="revenue-summary">
+                        <div class="rev-big"><%= fmtMoney(pay.monthlyRevenue) %></div>
+                        <div class="rev-sub">Commission: <strong><%= fmtMoney(pay.commission) %></strong></div>
+                        <div class="rev-sub">Pending refunds: <strong><%= fmtMoney(pay.pendingRefunds) %></strong></div>
+                    </div>
+                </div>
+            </div>
+        </section>

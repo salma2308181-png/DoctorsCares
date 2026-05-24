@@ -1,0 +1,36 @@
+        <section class="dash-section active" id="section-profile">
+            <h2 class="section-title"><i class="fas fa-user-circle"></i> Profile</h2>
+            <div class="profile-grid">
+                <div class="profile-photo-card">
+                    <img src="<%= patient.avatar %>" alt="" class="profile-big-avatar">
+                    <div class="profile-card-name"><%= patient.name %></div>
+                    <div class="profile-card-spec"><%= patient.email %></div>
+                </div>
+                <form action="/patient/profile" method="post" class="profile-form-card dash-card">
+                    <div class="form-row-dash">
+                        <div class="form-field-dash"><label>Full Name</label><input type="text" name="fullName" value="<%= patient.name %>" class="dash-input" required></div>
+                        <div class="form-field-dash"><label>Phone</label><input type="tel" name="phone" value="<%= patient.phone %>" class="dash-input"></div>
+                    </div>
+                    <div class="form-row-dash">
+                        <div class="form-field-dash">
+                            <label>Gender</label>
+                            <select name="gender" class="dash-input">
+                                <option value="">—</option>
+                                <option value="Male" <%= patient.gender === 'Male' ? 'selected' : '' %>>Male</option>
+                                <option value="Female" <%= patient.gender === 'Female' ? 'selected' : '' %>>Female</option>
+                            </select>
+                        </div>
+                        <div class="form-field-dash">
+                            <label>Date of Birth</label>
+                            <input type="date" name="dateOfBirth" class="dash-input" value="<%= patient.dateOfBirth ? new Date(patient.dateOfBirth).toISOString().slice(0,10) : '' %>">
+                        </div>
+                    </div>
+                    <div class="form-row-dash">
+                        <div class="form-field-dash"><label>Blood Type</label><input type="text" name="bloodType" value="<%= patient.bloodType %>" class="dash-input" placeholder="e.g. O+"></div>
+                        <div class="form-field-dash"><label>Primary Condition</label><input type="text" name="primaryCondition" value="<%= patient.primaryCondition %>" class="dash-input" placeholder="e.g. Hypertension"></div>
+                    </div>
+                    <div class="form-field-dash"><label>Email</label><input type="email" value="<%= patient.email %>" class="dash-input" readonly></div>
+                    <button type="submit" class="btn-primary-dash" style="margin-top:1.5rem;"><i class="fas fa-save"></i> Save Profile</button>
+                </form>
+            </div>
+        </section>

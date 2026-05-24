@@ -1,0 +1,33 @@
+﻿<% const pageTitle = 'Services | DoctorsCares'; %>
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+<%- include('partials/navbar') %>
+
+    <section id="services" class="services">
+        <div class="services-inner">
+            <% if (page.sectionLabel) { %>
+            <div class="section-label"><%= page.sectionLabel %></div>
+            <% } %>
+            <h1 class="heading"><%= page.heading %> <span><%= page.headingHighlight %></span></h1>
+            <% if (page.description) { %>
+            <p class="section-sub"><%= page.description %></p>
+            <% } %>
+            <div class="box-container">
+                <% services.forEach(function(svc) { %>
+                <div class="box service-card">
+                    <div class="service-icon"><i class="fas fa-<%= svc.icon || 'stethoscope' %>"></i></div>
+                    <h3><%= svc.title %></h3>
+                    <p><%= svc.description %></p>
+                    <a href="<%= svc.link || '#' %>" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <% }); %>
+            </div>
+        </div>
+    </section>
+
+<%- include('partials/footer') %>
+<%- include('partials/scripts') %>
+</body>
+</html>

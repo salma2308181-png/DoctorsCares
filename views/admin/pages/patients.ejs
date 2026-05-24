@@ -1,0 +1,92 @@
+﻿        <section class="admin-page-content">
+            <div class="section-greeting">
+                <div>
+                    <h1 class="dash-greeting">Patient Management</h1>
+                    <p class="dash-subgreeting">Promote patients to doctor after verification, or deactivate accounts.</p>
+                </div>
+            </div>
+
+            <div class="stats-grid stats-small">
+                <div class="stat-card stat-blue"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-info"><span class="stat-value"><%= (patients || []).length %></span><span class="stat-label">Registered Patients</span></div></div>
+                <div class="stat-card stat-green"><div class="stat-icon"><i class="fas fa-user-md"></i></div><div class="stat-info"><span class="stat-value"><%= (doctors || []).length %></span><span class="stat-label">Doctor Accounts</span></div></div>
+            </div>
+
+            <div class="dash-card">
+                <h3 style="font-size:1.6rem;margin-bottom:1.5rem;"><i class="fas fa-user-check"></i> Promote patient to doctor</h3>
+                <p style="font-size:1.35rem;color:var(--text-muted);margin-bottom:2rem;">Grant doctor access only after credentials are verified.</p>
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr><th>Patient</th><th>Phone</th><th>Joined</th><th>Status</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody>
+                            <% if (patients && patients.length) { %>
+                                <% patients.forEach(function(p) { %>
+                                <tr>
+                                    <td>
+                                        <div class="table-user">
+                                            <img src="<%= avatarUrl(p.name, 64) %>" alt="">
+                                            <div><strong><%= p.name %></strong><small><%= p.email %></small></div>
+                                        </div>
+                                    </td>
+                                    <td><%= p.phone %></td>
+                                    <td><%= fmtDate(p.joined) %></td>
+                                    <td><span class="status-badge <%= p.isActive ? 'status-active' : 'status-cancelled' %>"><%= p.isActive ? 'Active' : 'Inactive' %></span></td>
+                                    <td>
+                                        <div style="display:flex;flex-wrap:wrap;gap:0.8rem;align-items:center;">
+                                            <% if (p.isActive) { %>
+                                            <form action="/admin/users/<%= p.id %>/promote-doctor" method="post" style="display:flex;flex-wrap:wrap;gap:0.8rem;align-items:center;">
+                                                <input type="text" name="specialty" placeholder="Specialty *" required style="padding:0.8rem 1rem;border:1px solid var(--border);border-radius:0.6rem;font-size:1.3rem;min-width:14rem;">
+                                                <select name="title" style="padding:0.8rem 1rem;border:1px solid var(--border);border-radius:0.6rem;font-size:1.3rem;">
+                                                    <option value="Specialist">Specialist</option>
+                                                    <option value="Consultant">Consultant</option>
+                                                    <option value="Professor">Professor</option>
+                                                </select>
+                                                <button type="submit" class="btn-approve" title="Grant doctor role"><i class="fas fa-stethoscope"></i> Approve Doctor</button>
+                                            </form>
+                                            <form action="/admin/users/<%= p.id %>/ban" method="post" onsubmit="return confirm('Deactivate this patient account?');">
+                                                <button type="submit" class="btn-reject" style="font-size:1.2rem;"><i class="fas fa-ban"></i> Ban</button>
+                                            </form>
+                                            <% } else { %>
+                                            <form action="/admin/users/<%= p.id %>/activate" method="post">
+                                                <button type="submit" class="btn-approve" style="font-size:1.2rem;"><i class="fas fa-user-check"></i> Reactivate</button>
+                                            </form>
+                                            <% } %>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr><td colspan="5" style="text-align:center;padding:3rem;color:var(--text-muted);">No patient accounts yet.</td></tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <% if (doctors && doctors.length) { %>
+            <div class="dash-card" style="margin-top:2rem;">
+                <h3 style="font-size:1.6rem;margin-bottom:1.5rem;"><i class="fas fa-user-md"></i> Doctor user accounts</h3>
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr><th>Doctor</th><th>Email</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody>
+                            <% doctors.forEach(function(d) { %>
+                            <tr>
+                                <td><div class="table-user"><img src="<%= avatarUrl(d.name, 64) %>" alt=""><div><strong><%= d.name %></strong></div></div></td>
+                                <td><%= d.email %></td>
+                                <td>
+                                    <form action="/admin/users/<%= d.id %>/revert-patient" method="post" onsubmit="return confirm('Revert this user to patient?');">
+                                        <button type="submit" class="btn-reject" style="font-size:1.2rem;"><i class="fas fa-undo"></i> Revert to patient</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <% } %>
+        </section>

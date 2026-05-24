@@ -1,0 +1,9 @@
+        <% if (typeof isActive !== 'undefined' && !isActive) { %>
+        <div class="dash-flash error" style="margin:2rem 2rem 0;"><i class="fas fa-ban"></i> Your account is deactivated. Contact support to restore access.</div>
+        <% } %>
+        <% if (flash && flash.success) { %>
+        <div class="dash-flash success" style="margin:2rem 2rem 0;"><i class="fas fa-check-circle"></i> <%= flash.success %></div>
+        <% } %>
+        <% if (flash && flash.error) { %>
+        <div class="dash-flash error" style="margin:2rem 2rem 0;"><i class="fas fa-exclamation-circle"></i> <%= flash.error %></div>
+        <% } %>

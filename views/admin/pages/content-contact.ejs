@@ -1,0 +1,56 @@
+        <section class="admin-page-content">
+            <div class="section-greeting">
+                <div>
+                    <h1 class="dash-greeting">Contact Page</h1>
+                    <p class="dash-subgreeting">Edit <a href="/contact" target="_blank" rel="noopener">/contact</a> details and view submitted messages.</p>
+                </div>
+            </div>
+
+            <form action="/admin/content/contact" method="post" class="dash-card">
+                <div class="card-header"><h3><i class="fas fa-address-book"></i> Page Content</h3></div>
+                <div class="form-grid-2">
+                    <label class="form-field"><span>Section label</span><input type="text" name="sectionLabel" class="form-input" value="<%= contactPage.sectionLabel || '' %>"></label>
+                    <label class="form-field"><span>Heading</span><input type="text" name="heading" class="form-input" value="<%= contactPage.heading || '' %>"></label>
+                    <label class="form-field"><span>Heading highlight</span><input type="text" name="headingHighlight" class="form-input" value="<%= contactPage.headingHighlight || '' %>"></label>
+                    <label class="form-field"><span>Phone</span><input type="text" name="phone" class="form-input" value="<%= contactPage.phone || '' %>"></label>
+                    <label class="form-field"><span>Email</span><input type="text" name="email" class="form-input" value="<%= contactPage.email || '' %>"></label>
+                    <label class="form-field" style="grid-column:1/-1;"><span>Address</span><input type="text" name="address" class="form-input" value="<%= contactPage.address || '' %>"></label>
+                </div>
+                <label class="form-field" style="margin-top:1.2rem;"><span>Description</span><textarea name="description" class="form-input" rows="3"><%= contactPage.description || '' %></textarea></label>
+                <button type="submit" class="btn-primary-dash" style="margin-top:1.6rem;"><i class="fas fa-save"></i> Save Contact Page</button>
+            </form>
+
+            <div class="dash-card" style="margin-top:2rem;">
+                <div class="card-header"><h3><i class="fas fa-inbox"></i> Messages (<%= contactMessages ? contactMessages.length : 0 %>)</h3></div>
+                <% if (contactMessages && contactMessages.length) { %>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr><th>Date</th><th>Name</th><th>Email</th><th>Subject</th><th>Status</th><th></th></tr>
+                        </thead>
+                        <tbody>
+                            <% contactMessages.forEach(function(m) { %>
+                            <tr>
+                                <td><%= m.dateLabel %></td>
+                                <td><%= m.fullName %></td>
+                                <td><%= m.email %></td>
+                                <td><%= m.subject || '—' %></td>
+                                <td><span class="status-badge status-<%= m.status %>"><%= m.status %></span></td>
+                                <td>
+                                    <% if (m.status === 'new') { %>
+                                    <form action="/admin/contact-messages/<%= m.id %>/read" method="post" style="display:inline;">
+                                        <button type="submit" class="btn-outline-dash btn-sm">Mark read</button>
+                                    </form>
+                                    <% } %>
+                                </td>
+                            </tr>
+                            <tr><td colspan="6" style="font-size:1.25rem;color:#64748b;padding-top:0;"><%= m.message %></td></tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+                <% } else { %>
+                <p style="padding:1.5rem;color:#94a3b8;">No messages yet.</p>
+                <% } %>
+            </div>
+        </section>

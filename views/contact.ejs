@@ -1,0 +1,75 @@
+﻿<% const pageTitle = 'Contact | DoctorsCares'; %>
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+<%- include('partials/navbar') %>
+
+    <section id="contact" class="contact">
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <% if (contact.sectionLabel) { %>
+                <div class="section-label"><%= contact.sectionLabel %></div>
+                <% } %>
+                <h2><%= contact.heading %> <span><%= contact.headingHighlight %></span></h2>
+                <p><%= contact.description %></p>
+                <div class="contact-details">
+                    <% if (contact.phone) { %>
+                    <div class="contact-item">
+                        <div class="ci-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div><strong>Call Us</strong><span><%= contact.phone %></span></div>
+                    </div>
+                    <% } %>
+                    <% if (contact.email) { %>
+                    <div class="contact-item">
+                        <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+                        <div><strong>Email Us</strong><span><%= contact.email %></span></div>
+                    </div>
+                    <% } %>
+                    <% if (contact.address) { %>
+                    <div class="contact-item">
+                        <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div><strong>Our Office</strong><span><%= contact.address %></span></div>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+            <div class="contact-card">
+                <h3>Send a Message</h3>
+                <% if (flash && flash.success) { %>
+                <div style="color:#10b981;font-weight:600;margin-bottom:1rem;"><i class="fas fa-check-circle"></i> <%= flash.success %></div>
+                <% } %>
+                <% if (flash && flash.error) { %>
+                <div style="color:#ef4444;font-weight:600;margin-bottom:1rem;"><i class="fas fa-exclamation-circle"></i> <%= flash.error %></div>
+                <% } %>
+                <form class="contact-form" action="/contact" method="post">
+                    <div class="input-row">
+                        <div class="form-field">
+                            <label>Full Name</label>
+                            <input type="text" name="fullName" placeholder="Ahmed Mohamed" required>
+                        </div>
+                        <div class="form-field">
+                            <label>Email Address</label>
+                            <input type="email" name="email" placeholder="ahmed@email.com" required>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label>Subject</label>
+                        <input type="text" name="subject" placeholder="How can we help?">
+                    </div>
+                    <div class="form-field">
+                        <label>Message</label>
+                        <textarea name="message" placeholder="Write your message here..." rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="button btn-primary">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+<%- include('partials/footer') %>
+<%- include('partials/scripts') %>
+</body>
+</html>

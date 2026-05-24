@@ -1,0 +1,28 @@
+        <section class="dash-section active" id="section-appointments">
+            <div class="section-header-bar">
+                <h2 class="section-title"><i class="fas fa-calendar-check"></i> Appointments</h2>
+                <div class="appt-tabs">
+                    <% const tab = apptTab || 'pending'; %>
+                    <button type="button" class="appt-tab<%= tab === 'pending' ? ' active' : '' %>" data-filter="pending"><i class="fas fa-hourglass-half"></i> Pending <% if (apptCounts.pending) { %><span class="tab-badge"><%= apptCounts.pending %></span><% } %></button>
+                    <button type="button" class="appt-tab<%= tab === 'upcoming' ? ' active' : '' %>" data-filter="upcoming"><i class="fas fa-calendar-day"></i> Upcoming</button>
+                    <button type="button" class="appt-tab<%= tab === 'completed' ? ' active' : '' %>" data-filter="completed"><i class="fas fa-check-circle"></i> Completed</button>
+                    <button type="button" class="appt-tab<%= tab === 'cancelled' ? ' active' : '' %>" data-filter="cancelled"><i class="fas fa-calendar-times"></i> Cancelled</button>
+                </div>
+            </div>
+            <div class="appointments-list appt-panel" id="appt-panel-pending" style="<%= tab !== 'pending' ? 'display:none' : '' %>">
+                <% if (appointments.pending.length) { appointments.pending.forEach(function(a) { %><%- include('../appt-card', { a }) %><% }); %>
+                <% } else { %><p class="empty-panel">No pending appointments.</p><% } %>
+            </div>
+            <div class="appointments-list appt-panel" id="appt-panel-upcoming" style="<%= tab === 'upcoming' ? '' : 'display:none' %>">
+                <% if (appointments.upcoming.length) { appointments.upcoming.forEach(function(a) { %><%- include('../appt-card', { a }) %><% }); %>
+                <% } else { %><p class="empty-panel">No upcoming appointments.</p><% } %>
+            </div>
+            <div class="appointments-list appt-panel" id="appt-panel-completed" style="<%= tab === 'completed' ? '' : 'display:none' %>">
+                <% if (appointments.completed.length) { appointments.completed.forEach(function(a) { %><%- include('../appt-card', { a }) %><% }); %>
+                <% } else { %><p class="empty-panel">No completed appointments.</p><% } %>
+            </div>
+            <div class="appointments-list appt-panel" id="appt-panel-cancelled" style="<%= tab === 'cancelled' ? '' : 'display:none' %>">
+                <% if (appointments.cancelled.length) { appointments.cancelled.forEach(function(a) { %><%- include('../appt-card', { a }) %><% }); %>
+                <% } else { %><p class="empty-panel">No cancelled appointments.</p><% } %>
+            </div>
+        </section>

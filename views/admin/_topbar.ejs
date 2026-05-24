@@ -1,0 +1,17 @@
+        <header class="dash-topbar">
+            <div class="topbar-left">
+                <button type="button" class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <%- include('../partials/topbar-title', { role: 'admin' }) %>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-date"><i class="fas fa-calendar-alt"></i> <span id="today-date"></span></div>
+                <div class="admin-status-pill"><i class="fas fa-circle"></i> System Online</div>
+                <a href="/admin/notifications" class="topbar-notif" style="text-decoration:none;color:inherit;">
+                    <i class="fas fa-bell"></i>
+                    <% if (s.unreadNotifications > 0) { %><span class="notif-dot"></span><% } %>
+                </a>
+                <div class="topbar-avatar">
+                    <img src="<%= avatarUrl(adminName, 64) %>" alt="Admin">
+                </div>
+            </div>
+        </header>

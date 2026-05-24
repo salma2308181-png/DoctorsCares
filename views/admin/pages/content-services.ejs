@@ -1,0 +1,111 @@
+        <section class="admin-page-content">
+            <div class="section-greeting">
+                <div>
+                    <h1 class="dash-greeting">Services Page</h1>
+                    <p class="dash-subgreeting">Manage the <a href="/services" target="_blank" rel="noopener">/services</a> header and service cards.</p>
+                </div>
+            </div>
+
+            <form action="/admin/content/services-header" method="post" class="dash-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-heading"></i> Page Header</h3>
+                </div>
+                <div class="form-grid-2">
+                    <label class="form-field">
+                        <span>Section label</span>
+                        <input type="text" name="sectionLabel" class="form-input" value="<%= servicesPage.sectionLabel || '' %>">
+                    </label>
+                    <label class="form-field">
+                        <span>Heading</span>
+                        <input type="text" name="heading" class="form-input" value="<%= servicesPage.heading || '' %>">
+                    </label>
+                    <label class="form-field">
+                        <span>Heading highlight</span>
+                        <input type="text" name="headingHighlight" class="form-input" value="<%= servicesPage.headingHighlight || '' %>">
+                    </label>
+                </div>
+                <label class="form-field" style="margin-top:1.2rem;">
+                    <span>Subtitle</span>
+                    <textarea name="description" class="form-input" rows="2"><%= servicesPage.description || '' %></textarea>
+                </label>
+                <button type="submit" class="btn-primary-dash" style="margin-top:1.6rem;">
+                    <i class="fas fa-save"></i> Save Header
+                </button>
+            </form>
+
+            <div class="dash-card" style="margin-top:2rem;">
+                <div class="card-header">
+                    <h3><i class="fas fa-plus"></i> Add Service</h3>
+                </div>
+                <form action="/admin/services" method="post" class="form-grid-2">
+                    <label class="form-field">
+                        <span>Title</span>
+                        <input type="text" name="title" class="form-input" required>
+                    </label>
+                    <label class="form-field">
+                        <span>Icon (Font Awesome name, e.g. ambulance)</span>
+                        <input type="text" name="icon" class="form-input" placeholder="ambulance" value="stethoscope">
+                    </label>
+                    <label class="form-field" style="grid-column:1/-1;">
+                        <span>Description</span>
+                        <textarea name="description" class="form-input" rows="2"></textarea>
+                    </label>
+                    <label class="form-field">
+                        <span>Link</span>
+                        <input type="text" name="link" class="form-input" value="#">
+                    </label>
+                    <label class="form-field">
+                        <span>Sort order</span>
+                        <input type="number" name="sortOrder" class="form-input" value="0">
+                    </label>
+                    <div style="grid-column:1/-1;">
+                        <button type="submit" class="btn-card-add"><i class="fas fa-plus"></i> Add Service</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="dash-card" style="margin-top:2rem;">
+                <div class="card-header">
+                    <h3><i class="fas fa-concierge-bell"></i> Service Cards</h3>
+                </div>
+                <% if (serviceItems && serviceItems.length) { %>
+                    <% serviceItems.forEach(function(svc) { %>
+                    <form action="/admin/services/<%= svc._id %>/delete" method="post" style="display:none" id="del-svc-<%= svc._id %>"></form>
+                    <form action="/admin/services/<%= svc._id %>" method="post" class="content-edit-block">
+                        <div class="form-grid-2">
+                            <label class="form-field">
+                                <span>Title</span>
+                                <input type="text" name="title" class="form-input" value="<%= svc.title %>" required>
+                            </label>
+                            <label class="form-field">
+                                <span>Icon</span>
+                                <input type="text" name="icon" class="form-input" value="<%= svc.icon %>">
+                            </label>
+                            <label class="form-field" style="grid-column:1/-1;">
+                                <span>Description</span>
+                                <textarea name="description" class="form-input" rows="2"><%= svc.description %></textarea>
+                            </label>
+                            <label class="form-field">
+                                <span>Link</span>
+                                <input type="text" name="link" class="form-input" value="<%= svc.link %>">
+                            </label>
+                            <label class="form-field">
+                                <span>Sort order</span>
+                                <input type="number" name="sortOrder" class="form-input" value="<%= svc.sortOrder %>">
+                            </label>
+                            <label class="form-field" style="display:flex;align-items:center;gap:0.6rem;margin-top:2rem;">
+                                <input type="checkbox" name="isActive" value="on" <%= svc.isActive !== false ? 'checked' : '' %>>
+                                <span>Visible on site</span>
+                            </label>
+                        </div>
+                        <div style="display:flex;gap:0.8rem;margin-top:1rem;flex-wrap:wrap;">
+                            <button type="submit" class="btn-primary-dash btn-sm"><i class="fas fa-save"></i> Update</button>
+                            <button type="submit" class="btn-delete-sm" form="del-svc-<%= svc._id %>" onclick="return confirm('Delete this service?');"><i class="fas fa-trash"></i> Delete</button>
+                        </div>
+                    </form>
+                    <% }); %>
+                <% } else { %>
+                    <p style="padding:2rem;text-align:center;color:var(--text-muted);">No services in database. Add one above or run <code>npm run seed</code>.</p>
+                <% } %>
+            </div>
+        </section>

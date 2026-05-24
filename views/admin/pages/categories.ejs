@@ -1,0 +1,98 @@
+﻿        <section class="admin-page-content">
+            <div class="section-greeting">
+                <div>
+                    <h1 class="dash-greeting">Content & Categories</h1>
+                    <p class="dash-subgreeting">Manage specialties, cities, and featured doctors.</p>
+                </div>
+            </div>
+
+            <div class="overview-grid">
+                <div class="dash-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-stethoscope"></i> Specialties</h3>
+                    </div>
+                    <form action="/admin/specialties" method="post" style="display:flex;gap:0.8rem;margin-bottom:1.6rem;flex-wrap:wrap;">
+                        <input type="text" name="name" class="form-input" placeholder="New specialty name" required style="flex:1;min-width:16rem;">
+                        <button type="submit" class="btn-card-add"><i class="fas fa-plus"></i> Add</button>
+                    </form>
+                    <div class="category-list">
+                        <% if (specialties && specialties.length) { %>
+                            <% specialties.forEach(function(spec) { %>
+                            <div class="cat-item">
+                                <span class="cat-icon" style="background:<%= spec.iconBg || '#dbeafe' %>;color:<%= spec.iconColor || '#2563eb' %>"><i class="fas fa-<%= spec.icon || 'stethoscope' %>"></i></span>
+                                <div class="cat-info"><strong><%= spec.name %></strong><small><%= spec.doctorCount %> doctor<%= spec.doctorCount === 1 ? '' : 's' %></small></div>
+                                <div class="cat-actions">
+                                    <form action="/admin/specialties/<%= spec.id %>/delete" method="post" onsubmit="return confirm('Remove this specialty?');">
+                                        <button type="submit" class="btn-delete-sm"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <% }); %>
+                        <% } else { %>
+                            <p style="padding:2rem;text-align:center;color:var(--text-muted);">No specialties yet. Add one above.</p>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-map-marker-alt"></i> Cities / Locations</h3>
+                    </div>
+                    <form action="/admin/cities" method="post" style="display:flex;gap:0.8rem;margin-bottom:1.6rem;flex-wrap:wrap;">
+                        <input type="text" name="name" class="form-input" placeholder="New city name" required style="flex:1;min-width:16rem;">
+                        <button type="submit" class="btn-card-add"><i class="fas fa-plus"></i> Add</button>
+                    </form>
+                    <div class="category-list">
+                        <% if (cities && cities.length) { %>
+                            <% cities.forEach(function(city) { %>
+                            <div class="cat-item">
+                                <span class="cat-icon" style="background:#f0fdf4;color:#16a34a"><i class="fas fa-city"></i></span>
+                                <div class="cat-info"><strong><%= city.name %></strong><small><%= city.doctorCount %> doctors · <%= city.patientCount %> patients</small></div>
+                                <div class="cat-actions">
+                                    <form action="/admin/cities/<%= city.id %>/delete" method="post" onsubmit="return confirm('Remove this city?');">
+                                        <button type="submit" class="btn-delete-sm"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <% }); %>
+                        <% } else { %>
+                            <p style="padding:2rem;text-align:center;color:var(--text-muted);">No cities yet. Add one above.</p>
+                        <% } %>
+                    </div>
+
+                    <div class="card-header" style="margin-top:2rem">
+                        <h3><i class="fas fa-star"></i> Featured Doctors</h3>
+                    </div>
+                    <div class="featured-list">
+                        <% if (featuredDoctors && featuredDoctors.length) { %>
+                            <% featuredDoctors.forEach(function(fd) { %>
+                            <div class="featured-doctor-item">
+                                <img src="<%= avatarUrl(fd.name, 64) %>" alt="">
+                                <div><strong><%= fd.name %></strong><small><%= fd.specialty %> · <%= fd.location %></small></div>
+                                <form action="/admin/doctors/<%= fd.userId %>/toggle-featured" method="post">
+                                    <button type="submit" class="btn-unfeature" title="Remove from featured"><i class="fas fa-star"></i></button>
+                                </form>
+                            </div>
+                            <% }); %>
+                        <% } else { %>
+                            <p style="padding:1.5rem;text-align:center;color:var(--text-muted);">No featured doctors. Toggle featured from the Doctors section.</p>
+                        <% } %>
+                    </div>
+
+                    <% if (activeDoctors && activeDoctors.length) { %>
+                    <div style="margin-top:1.6rem;">
+                        <p style="font-size:1.3rem;color:var(--text-muted);margin-bottom:1rem;">Feature an active doctor:</p>
+                        <% activeDoctors.filter(function(d) { return !d.featured; }).slice(0, 5).forEach(function(d) { %>
+                        <div class="featured-doctor-item" style="opacity:0.85;">
+                            <img src="<%= avatarUrl(d.name, 64) %>" alt="">
+                            <div><strong><%= d.name %></strong><small><%= d.specialty %></small></div>
+                            <form action="/admin/doctors/<%= d.userId %>/toggle-featured" method="post">
+                                <button type="submit" class="btn-feature-sm"><i class="fas fa-star"></i></button>
+                            </form>
+                        </div>
+                        <% }); %>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </section>

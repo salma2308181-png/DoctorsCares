@@ -1,0 +1,161 @@
+﻿        <section class="admin-page-content">
+            <div class="section-greeting">
+                <div>
+                    <h1 class="dash-greeting">Doctor Management</h1>
+                    <p class="dash-subgreeting">Approve, verify, and manage doctor accounts.</p>
+                </div>
+            </div>
+
+            <div class="section-tabs">
+                <button type="button" class="tab-btn active" data-tab="pending-doctors"><i class="fas fa-hourglass-half"></i> Pending Approval <span class="tab-count"><%= (pendingDoctors || []).length %></span></button>
+                <button type="button" class="tab-btn" data-tab="all-doctors"><i class="fas fa-user-md"></i> All Doctors <span class="tab-count"><%= (activeDoctors || []).length %></span></button>
+                <button type="button" class="tab-btn" data-tab="suspended-doctors"><i class="fas fa-ban"></i> Suspended <span class="tab-count"><%= (suspendedDoctors || []).length %></span></button>
+            </div>
+
+            <div class="tab-content active" id="tab-pending-doctors">
+                <div class="dash-card">
+                    <div class="table-wrap">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Doctor</th>
+                                    <th>Specialty</th>
+                                    <th>Location</th>
+                                    <th>Submitted</th>
+                                    <th>Documents</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (pendingDoctors && pendingDoctors.length) { %>
+                                    <% pendingDoctors.forEach(function(d) { %>
+                                    <tr>
+                                        <td>
+                                            <div class="table-user">
+                                                <img src="<%= avatarUrl(d.name, 64) %>" alt="">
+                                                <div><strong><%= d.name %></strong><small><%= d.email %></small></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="specialty-tag"><%= d.specialty || '—' %></span></td>
+                                        <td><%= d.location || '—' %></td>
+                                        <td><%= fmtDate(d.submitted) %></td>
+                                        <td>
+                                            <% if (d.documentsComplete) { %>
+                                            <span class="doc-verify verified"><i class="fas fa-check"></i> Complete</span>
+                                            <% } else { %>
+                                            <span class="btn-doc-view btn-warn-doc"><i class="fas fa-exclamation-triangle"></i> Incomplete</span>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <div class="action-btns" style="flex-wrap:wrap;gap:0.6rem;">
+                                                <form action="/admin/doctors/<%= d.userId %>/verify" method="post" style="display:inline;">
+                                                    <button type="submit" class="btn-approve"<%= d.documentsComplete ? '' : ' disabled' %>><i class="fas fa-check"></i> Approve</button>
+                                                </form>
+                                                <form action="/admin/doctors/<%= d.userId %>/reject" method="post" style="display:inline-flex;gap:0.4rem;align-items:center;">
+                                                    <input type="text" name="reason" placeholder="Rejection reason" required style="padding:0.5rem 0.8rem;border:1px solid var(--border);border-radius:0.5rem;font-size:1.2rem;max-width:12rem;">
+                                                    <button type="submit" class="btn-reject"><i class="fas fa-times"></i> Reject</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                                <% } else { %>
+                                    <tr><td colspan="6" style="text-align:center;padding:3rem;color:var(--text-muted);">No pending doctor registrations.</td></tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tab-all-doctors">
+                <div class="dash-card">
+                    <div class="table-toolbar">
+                        <input type="text" class="table-search" placeholder="Search doctor by name, specialty...">
+                    </div>
+                    <div class="table-wrap">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Doctor</th>
+                                    <th>Specialty</th>
+                                    <th>Location</th>
+                                    <th>Rating</th>
+                                    <th>Appointments</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (activeDoctors && activeDoctors.length) { %>
+                                    <% activeDoctors.forEach(function(d) { %>
+                                    <tr>
+                                        <td>
+                                            <div class="table-user">
+                                                <img src="<%= avatarUrl(d.name, 64) %>" alt="">
+                                                <div><strong><%= d.name %></strong><small><%= d.email %></small></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="specialty-tag"><%= d.specialty || '—' %></span></td>
+                                        <td><%= d.location || '—' %></td>
+                                        <td><span class="rating-stars">â˜… <%= d.rating || 5 %></span></td>
+                                        <td><%= d.appointments || 0 %></td>
+                                        <td><span class="status-badge status-active">Active</span></td>
+                                        <td>
+                                            <div class="action-btns" style="flex-wrap:wrap;gap:0.5rem;">
+                                                <form action="/admin/doctors/<%= d.userId %>/toggle-featured" method="post" style="display:inline;">
+                                                    <button type="submit" class="btn-feature-sm<%= d.featured ? ' featured' : '' %>" title="Toggle featured"><i class="fas fa-star"></i></button>
+                                                </form>
+                                                <form action="/admin/doctors/<%= d.userId %>/suspend" method="post" style="display:inline-flex;gap:0.4rem;align-items:center;flex-wrap:wrap;">
+                                                    <input type="text" name="reason" placeholder="Suspend reason" style="padding:0.5rem 0.8rem;border:1px solid var(--border);border-radius:0.5rem;font-size:1.2rem;max-width:11rem;">
+                                                    <button type="submit" class="btn-suspend-sm"><i class="fas fa-ban"></i> Suspend</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                                <% } else { %>
+                                    <tr><td colspan="7" style="text-align:center;padding:3rem;color:var(--text-muted);">No active doctors yet.</td></tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tab-suspended-doctors">
+                <div class="dash-card">
+                    <div class="table-wrap">
+                        <table class="admin-table">
+                            <thead>
+                                <tr><th>Doctor</th><th>Specialty</th><th>Location</th><th>Reason</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody>
+                                <% if (suspendedDoctors && suspendedDoctors.length) { %>
+                                    <% suspendedDoctors.forEach(function(d) { %>
+                                    <tr>
+                                        <td>
+                                            <div class="table-user">
+                                                <img src="<%= avatarUrl(d.name, 64) %>" alt="">
+                                                <div><strong><%= d.name %></strong><small><%= d.email %></small></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="specialty-tag"><%= d.specialty || '—' %></span></td>
+                                        <td><%= d.location || '—' %></td>
+                                        <td><span class="reason-tag"><%= d.suspendReason || 'Policy Violation' %></span></td>
+                                        <td>
+                                            <form action="/admin/doctors/<%= d.userId %>/reinstate" method="post" style="display:inline;">
+                                                <button type="submit" class="btn-approve"><i class="fas fa-redo"></i> Reinstate</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                                <% } else { %>
+                                    <tr><td colspan="5" style="text-align:center;padding:3rem;color:var(--text-muted);">No suspended doctors.</td></tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>

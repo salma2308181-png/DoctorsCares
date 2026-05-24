@@ -1,0 +1,103 @@
+﻿<% const pageTitle = 'Find Doctors | DoctorsCares'; %>
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+<%- include('partials/navbar') %>
+
+    <section id="doctors" class="doctors-search-container">
+        <div class="section-label">Our Specialists</div>
+        <h1 class="heading">Find Your <span>Doctor</span></h1>
+        <p class="section-sub">Browse our network of board-certified specialists and book your visit today.</p>
+
+        <div class="search-bar-wrapper">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search by name or specialty...">
+            </div>
+        </div>
+
+        <div class="search-layout">
+            <aside class="filter-sidebar">
+                <h3><i class="fas fa-sliders-h"></i> Filter Results</h3>
+                <div class="filter-group">
+                    <label>Professional Title</label>
+                    <select id="filter-title">
+                        <option value="all">All Titles</option>
+                        <option value="Professor">Professor</option>
+                        <option value="Consultant">Consultant</option>
+                        <option value="Specialist">Specialist</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Gender</label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="gender" value="all" checked><span>Both</span></label>
+                        <label class="radio-label"><input type="radio" name="gender" value="Male"><span>Male</span></label>
+                        <label class="radio-label"><input type="radio" name="gender" value="Female"><span>Female</span></label>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label>Consultation Price</label>
+                    <div class="range-wrapper">
+                        <input type="range" id="filter-price" min="100" max="1000" step="50" value="1000">
+                        <div class="range-labels">
+                            <span>100 EGP</span>
+                            <span id="price-value" class="price-tag">1000 EGP</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label>Minimum Rating</label>
+                    <div class="star-filter">
+                        <button type="button" class="star-btn active" data-rating="0">All</button>
+                        <button type="button" class="star-btn" data-rating="4">4+ ★</button>
+                        <button type="button" class="star-btn" data-rating="5">5 ★</button>
+                    </div>
+                </div>
+                <button type="button" id="reset-filters" class="button-outline"><i class="fas fa-undo"></i> Clear Filters</button>
+            </aside>
+
+            <main>
+                <div class="results-header">
+                    <span id="results-count"></span>
+                </div>
+                <div class="doctors-grid" id="doctor-list"></div>
+            </main>
+        </div>
+    </section>
+
+    <div class="modal-overlay" id="booking-modal">
+        <div class="modal">
+            <button type="button" class="close-modal" id="close-modal"><i class="fas fa-times"></i></button>
+            <h2>Book Appointment</h2>
+            <div id="modal-doctor-info" class="modal-doctor-info"></div>
+            <form class="modal-form" action="/patient/appointments/book" method="post">
+                <input type="hidden" name="doctorId" id="book-doctor-id">
+                <input type="hidden" name="redirectTo" value="/patient/appointments">
+                <label>Date</label>
+                <input type="date" name="appointmentDate" id="book-date" required>
+                <label>Time</label>
+                <select name="timeSlot" required>
+                    <option value="9:00 AM">9:00 AM</option>
+                    <option value="10:00 AM">10:00 AM</option>
+                    <option value="11:00 AM">11:00 AM</option>
+                    <option value="12:00 PM">12:00 PM</option>
+                    <option value="2:00 PM">2:00 PM</option>
+                    <option value="3:00 PM">3:00 PM</option>
+                    <option value="4:00 PM">4:00 PM</option>
+                </select>
+                <label>Reason</label>
+                <input type="text" name="reason" placeholder="Reason for visit" required>
+                <button type="submit" class="button"><i class="fas fa-calendar-check"></i> Request Appointment</button>
+            </form>
+        </div>
+    </div>
+
+<%- include('partials/footer') %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>window.__DOCTORS__ = <%- JSON.stringify(publicDoctors || []) %>;</script>
+<script>window.__BOOKING__ = <%- JSON.stringify(bookingConfig || {}) %>;</script>
+<script src="/js/doctors-page.js"></script>
+</body>
+</html>

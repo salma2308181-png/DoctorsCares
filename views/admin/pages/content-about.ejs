@@ -1,0 +1,93 @@
+        <section class="admin-page-content">
+            <div class="section-greeting">
+                <div>
+                    <h1 class="dash-greeting">About Page</h1>
+                    <p class="dash-subgreeting">Edit the public <a href="/about" target="_blank" rel="noopener">/about</a> page text and highlights.</p>
+                </div>
+            </div>
+
+            <form action="/admin/content/about" method="post" class="dash-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-info-circle"></i> Page Content</h3>
+                </div>
+                <div class="form-grid-2">
+                    <label class="form-field">
+                        <span>Section label</span>
+                        <input type="text" name="sectionLabel" class="form-input" value="<%= aboutPage.sectionLabel || '' %>">
+                    </label>
+                    <label class="form-field">
+                        <span>Heading (before highlight)</span>
+                        <input type="text" name="heading" class="form-input" value="<%= aboutPage.heading || '' %>">
+                    </label>
+                    <label class="form-field">
+                        <span>Heading highlight</span>
+                        <input type="text" name="headingHighlight" class="form-input" value="<%= aboutPage.headingHighlight || '' %>">
+                    </label>
+                    <label class="form-field">
+                        <span>CTA button text</span>
+                        <input type="text" name="ctaText" class="form-input" value="<%= aboutPage.ctaText || '' %>">
+                    </label>
+                    <label class="form-field">
+                        <span>CTA link</span>
+                        <input type="text" name="ctaLink" class="form-input" value="<%= aboutPage.ctaLink || '/doctors' %>">
+                    </label>
+                </div>
+                <label class="form-field" style="margin-top:1.2rem;">
+                    <span>Main paragraph</span>
+                    <textarea name="description" class="form-input" rows="4"><%= aboutPage.description || '' %></textarea>
+                </label>
+
+                <div class="card-header" style="margin-top:2rem;">
+                    <h3><i class="fas fa-image"></i> Image & Stats</h3>
+                </div>
+                <div class="form-grid-2">
+                    <label class="form-field">
+                        <span>Image URL</span>
+                        <input type="url" name="imageUrl" class="form-input" value="<%= aboutPage.imageUrl || '' %>">
+                    </label>
+                    <label class="form-field">
+                        <span>Image badge text</span>
+                        <input type="text" name="imageBadge" class="form-input" value="<%= aboutPage.imageBadge || '' %>">
+                    </label>
+                    <label class="form-field">
+                        <span>Stat value</span>
+                        <input type="text" name="statValue" class="form-input" value="<%= aboutPage.statValue || '' %>">
+                    </label>
+                    <label class="form-field">
+                        <span>Stat label</span>
+                        <input type="text" name="statLabel" class="form-input" value="<%= aboutPage.statLabel || '' %>">
+                    </label>
+                </div>
+
+                <div class="card-header" style="margin-top:2rem;">
+                    <h3><i class="fas fa-list-check"></i> Feature bullets</h3>
+                </div>
+                <% const feats = aboutPage.features && aboutPage.features.length ? aboutPage.features : [{ title: '', description: '' }, { title: '', description: '' }, { title: '', description: '' }]; %>
+                <% feats.forEach(function(f) { %>
+                <div class="form-grid-2" style="margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border-light);">
+                    <label class="form-field">
+                        <span>Feature title</span>
+                        <input type="text" name="featureTitle" class="form-input" value="<%= f.title || '' %>">
+                    </label>
+                    <label class="form-field">
+                        <span>Feature description</span>
+                        <input type="text" name="featureDesc" class="form-input" value="<%= f.description || '' %>">
+                    </label>
+                </div>
+                <% }); %>
+                <div class="form-grid-2" style="margin-bottom:1rem;">
+                    <label class="form-field">
+                        <span>Feature title (add new)</span>
+                        <input type="text" name="featureTitle" class="form-input" placeholder="Optional extra feature">
+                    </label>
+                    <label class="form-field">
+                        <span>Feature description</span>
+                        <input type="text" name="featureDesc" class="form-input" placeholder="">
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-primary-dash" style="margin-top:1.6rem;">
+                    <i class="fas fa-save"></i> Save About Page
+                </button>
+            </form>
+        </section>

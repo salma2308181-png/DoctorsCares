@@ -1,0 +1,94 @@
+        <section class="dash-section active">
+            <div class="section-header-bar" style="margin-bottom:1.5rem;">
+                <h2 class="section-title" style="margin:0;"><i class="fas fa-people-roof"></i> Family Accounts</h2>
+            </div>
+
+            <p style="color:#64748b;font-size:0.9rem;margin-bottom:1.5rem;">
+                Manage appointments for your whole family from one account — ideal for parents booking for children or elderly parents in Egypt.
+            </p>
+
+            <div class="family-grid">
+                <div class="family-card self-card">
+                    <img src="<%= patient.avatar %>" alt="" class="family-card-avatar">
+                    <div class="family-card-name"><%= patient.name %></div>
+                    <div class="family-card-rel">Account holder (You)</div>
+                    <% if (!activeFamilyMemberId || activeFamilyMemberId === 'self') { %>
+                    <span class="family-active-badge">Active for booking</span>
+                    <% } else { %>
+                    <form action="/patient/family/switch" method="post" style="margin-top:0.5rem;">
+                        <input type="hidden" name="familyMemberId" value="self">
+                        <input type="hidden" name="redirectTo" value="/patient/family">
+                        <button type="submit" class="btn-family-sm">Book for me</button>
+                    </form>
+                    <% } %>
+                </div>
+
+                <% familyMembers.forEach(function(f) { %>
+                <div class="family-card">
+                    <img src="<%= f.avatar %>" alt="" class="family-card-avatar">
+                    <div class="family-card-name"><%= f.fullName %></div>
+                    <div class="family-card-rel"><%= f.relationshipLabel %></div>
+                    <% if (f.primaryCondition) { %>
+                    <div class="family-card-meta"><%= f.primaryCondition %></div>
+                    <% } %>
+                    <% if (activeFamilyMemberId === f.id) { %>
+                    <span class="family-active-badge">Active for booking</span>
+                    <% } else { %>
+                    <div class="family-card-actions">
+                        <form action="/patient/family/switch" method="post">
+                            <input type="hidden" name="familyMemberId" value="<%= f.id %>">
+                            <input type="hidden" name="redirectTo" value="/patient/family">
+                            <button type="submit" class="btn-family-sm">Book for them</button>
+                        </form>
+                        <form action="/patient/family/<%= f.id %>/delete" method="post" onsubmit="return confirm('Remove <%= f.fullName %>?');">
+                            <button type="submit" class="btn-family-sm danger">Remove</button>
+                        </form>
+                    </div>
+                    <% } %>
+                </div>
+                <% }); %>
+            </div>
+
+            <div class="dash-card">
+                <h3 style="margin-bottom:1rem;"><i class="fas fa-user-plus"></i> Add Family Member</h3>
+                <form action="/patient/family/add" method="post" class="form-grid-book">
+                    <div class="form-field-dash">
+                        <label>Full name</label>
+                        <input type="text" name="fullName" class="dash-input" placeholder="e.g. Hassan Ahmed" required>
+                    </div>
+                    <div class="form-field-dash">
+                        <label>Relationship</label>
+                        <select name="relationship" class="dash-input" required>
+                            <option value="father">Father</option>
+                            <option value="mother">Mother</option>
+                            <option value="child">Child</option>
+                            <option value="spouse">Spouse</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-field-dash">
+                        <label>Gender</label>
+                        <select name="gender" class="dash-input">
+                            <option value="">—</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-field-dash">
+                        <label>Date of birth</label>
+                        <input type="date" name="dateOfBirth" class="dash-input">
+                    </div>
+                    <div class="form-field-dash">
+                        <label>Blood type</label>
+                        <input type="text" name="bloodType" class="dash-input" placeholder="e.g. O+">
+                    </div>
+                    <div class="form-field-dash">
+                        <label>Health condition</label>
+                        <input type="text" name="primaryCondition" class="dash-input" placeholder="e.g. Diabetes">
+                    </div>
+                    <div style="grid-column:1/-1;">
+                        <button type="submit" class="btn-primary-dash"><i class="fas fa-save"></i> Add Member</button>
+                    </div>
+                </form>
+            </div>
+        </section>

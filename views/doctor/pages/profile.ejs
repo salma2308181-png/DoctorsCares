@@ -1,0 +1,76 @@
+        <section class="dash-section active" id="section-profile">
+            <div class="section-header-bar">
+                <h2 class="section-title"><i class="fas fa-user-circle"></i> Profile & Settings</h2>
+            </div>
+            <div class="profile-grid">
+                <div class="profile-photo-card">
+                    <div class="profile-avatar-wrap">
+                        <img src="<%= doctor.avatar %>" alt="Doctor" class="profile-big-avatar">
+                    </div>
+                    <div class="profile-card-name"><%= doctor.name %></div>
+                    <div class="profile-card-spec"><%= doctor.specialty %> · <%= doctor.title %></div>
+                    <div class="profile-card-rating"><i class="fas fa-star"></i> <%= doctor.rating %> · <%= doctor.reviewCount %> reviews</div>
+                    <% if (doctor.verified) { %>
+                    <div class="profile-verify-badge"><i class="fas fa-shield-alt"></i> Verified Doctor</div>
+                    <% } %>
+                </div>
+                <div class="profile-form-card">
+                    <div class="profile-tabs">
+                        <button type="button" class="ptab active" data-ptab="info"><i class="fas fa-user"></i> Personal Info</button>
+                        <button type="button" class="ptab" data-ptab="clinic"><i class="fas fa-hospital"></i> Clinic & Fees</button>
+                        <button type="button" class="ptab" data-ptab="documents"><i class="fas fa-file-medical"></i> Documents</button>
+                    </div>
+                    <form action="/doctor/profile" method="post" class="ptab-content active" id="ptab-info">
+                        <input type="hidden" name="tab" value="info">
+                        <div class="form-row-dash">
+                            <div class="form-field-dash"><label>Full Name</label><input type="text" name="fullName" value="<%= doctor.name %>" class="dash-input" required></div>
+                            <div class="form-field-dash"><label>Specialty</label><input type="text" name="specialty" value="<%= doctor.specialty %>" class="dash-input" required></div>
+                        </div>
+                        <div class="form-row-dash">
+                            <div class="form-field-dash">
+                                <label>Professional Title</label>
+                                <select name="title" class="dash-input">
+                                    <% ['Professor','Consultant','Specialist'].forEach(function(t) { %>
+                                    <option <%= doctor.title === t ? 'selected' : '' %>><%= t %></option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                            <div class="form-field-dash"><label>Years of Experience</label><input type="number" name="yearsExperience" value="<%= doctor.yearsExperience %>" class="dash-input"></div>
+                        </div>
+                        <div class="form-field-dash"><label>Bio</label><textarea name="bio" class="dash-input" rows="4"><%= doctor.bio %></textarea></div>
+                        <div class="form-row-dash">
+                            <div class="form-field-dash"><label>Email</label><input type="email" value="<%= doctor.email %>" class="dash-input" readonly></div>
+                            <div class="form-field-dash"><label>Phone</label><input type="tel" name="phone" value="<%= doctor.phone %>" class="dash-input"></div>
+                        </div>
+                        <button type="submit" class="btn-primary-dash"><i class="fas fa-save"></i> Save Changes</button>
+                    </form>
+                    <form action="/doctor/profile" method="post" class="ptab-content" id="ptab-clinic">
+                        <input type="hidden" name="tab" value="clinic">
+                        <div class="form-field-dash"><label>Clinic Name</label><input type="text" name="clinicName" value="<%= doctor.clinicName %>" class="dash-input"></div>
+                        <div class="form-field-dash"><label>Clinic Address</label><input type="text" name="clinicAddress" value="<%= doctor.clinicAddress %>" class="dash-input"></div>
+                        <div class="form-row-dash">
+                            <div class="form-field-dash"><label>In-Clinic Fee (EGP)</label><input type="number" name="inClinicFee" value="<%= doctor.inClinicFee %>" class="dash-input"></div>
+                            <div class="form-field-dash"><label>Online Consultation Fee (EGP)</label><input type="number" name="onlineFee" value="<%= doctor.onlineFee %>" class="dash-input"></div>
+                        </div>
+                        <button type="submit" class="btn-primary-dash"><i class="fas fa-save"></i> Save Changes</button>
+                    </form>
+                    <div class="ptab-content" id="ptab-documents">
+                        <div class="documents-list">
+                            <% doctor.documents.forEach(function(doc) { %>
+                            <div class="doc-item <%= doc.status === 'verified' ? 'doc-uploaded' : 'doc-pending' %>">
+                                <div class="doc-icon"><i class="fas fa-file-medical"></i></div>
+                                <div class="doc-info">
+                                    <div class="doc-name"><%= doc.name %></div>
+                                    <div class="doc-status <%= doc.status === 'pending' ? 'pending' : '' %>">
+                                        <i class="fas fa-<%= doc.status === 'verified' ? 'check-circle' : 'clock' %>"></i>
+                                        <%= doc.status === 'verified' ? 'Verified' : 'Under Review' %>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                        </div>
+                        <p style="margin-top:1.5rem;font-size:1.3rem;color:#64748b;">Document uploads are reviewed by the admin team.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
